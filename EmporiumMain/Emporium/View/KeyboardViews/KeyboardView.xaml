@@ -1,0 +1,22 @@
+﻿<UserControl x:Class="Emporium.View.KeyBoardViews.KeyboardView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Emporium.View.KeyBoardViews"
+             mc:Ignorable="d" DataContext="{Binding keyPadViewModel, Mode=OneWay, Source={StaticResource Locator}}" 
+             >
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="converter"/>
+    </UserControl.Resources>
+    <DockPanel>
+        <Border Height="80" DockPanel.Dock="Top">
+            <TextBox Style="{DynamicResource LoginTextBoxStyle}" Text="{Binding keyPadViewModel.Message,Source={StaticResource Locator}}"/>
+        </Border>
+        <Grid>
+            <local:KeyPadView/>
+           
+        </Grid>
+    </DockPanel>
+    
+</UserControl>

@@ -1,0 +1,27 @@
+﻿<UserControl x:Class="Emporium.View.KeyBoardViews.ConfigUserNumPadView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Emporium.View.KeyBoardViews"
+             mc:Ignorable="d" 
+             DataContext="{Binding configUsersNumpadViewModel, Mode=OneWay, Source={StaticResource Locator}}">
+	<DockPanel Width="220"
+			   Height="320">
+		<Border DockPanel.Dock="Top" Height="50">
+			<Label Foreground="White" Content="{Binding Message}"/>
+		</Border>
+		<Grid >
+			<local:NumPadView  DataContext="{Binding configUsersNumpadViewModel,Source={StaticResource Locator}}"/>
+			<Border Width="54" Height="50"
+                        Padding="1.5" Margin="159,211,7,9" >
+				<Button Command="{Binding EnterCommand}" VerticalContentAlignment="Center" 
+                            HorizontalContentAlignment="Center" FontSize="16"
+                            Style="{DynamicResource KeyButtonStyle}" Content="Enter"
+                            />
+			</Border>
+		</Grid>
+
+
+	</DockPanel>
+</UserControl>
