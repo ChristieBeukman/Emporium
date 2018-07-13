@@ -1,0 +1,62 @@
+﻿<Application x:Class="Emporium.App" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+             xmlns:local="clr-namespace:Emporium" 
+             StartupUri="View\MainWindow.xaml" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:KeyView="clr-namespace:Emporium.View.KeyBoardViews"
+              xmlns:key="clr-namespace:Emporium.ViewModel.Keyboard"
+             xmlns:con="clr-namespace:Emporium.ViewModel.Configuration"
+             xmlns:conView="clr-namespace:Emporium.View.Configuration"
+             xmlns:tblView="clr-namespace:Emporium.View.Table"
+             xmlns:tbl="clr-namespace:Emporium.ViewModel.Table"
+             xmlns:login="clr-namespace:Emporium.ViewModel.Login"
+             xmlns:loginView="clr-namespace:Emporium.View.Login"
+             d1p1:Ignorable="d" xmlns:d1p1="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:Emporium.ViewModel">
+  <Application.Resources>
+    <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="View\Styles\StyleDictionary.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <SolidColorBrush x:Key="View.Background" Color="#FF232323"/>
+            <SolidColorBrush x:Key="Menu.Item.Background" Color="#FF6A6666"/>
+            <LinearGradientBrush x:Key="Border.BorderGradient" EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="#FF343232" Offset="0"/>
+                <GradientStop Color="#33FFFFFF" Offset="1"/>
+            </LinearGradientBrush>
+        
+            <vm:ViewModelLocator x:Key="Locator" d:IsDataSource="True"  />
+
+            <DataTemplate DataType="{x:Type key:KeyboardBase}">
+                <KeyView:KeyboardView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type key:LoginViewModel}">
+                <KeyView:LoginView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type con:ConfigurationViewModel}">
+                <conView:ConfigurationView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type key:ConfigUsersKeyboardViewModel}">
+                <KeyView:ConfigUserKeyboardView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type key:ConfigUsersNumpadViewModel}">
+                <KeyView:ConfigUserNumPadView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type key:PasswordResetViewModel}">
+                <KeyView:PasswordResetView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type tbl:TableViewModel}">
+                <tblView:TableView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type login:LoginStaffViewModel}">
+                <loginView:LoginStaffView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type login:ClockInViewModel}">
+                <loginView:ClockInStaffView/>
+            </DataTemplate>
+        </ResourceDictionary>
+  </Application.Resources>
+</Application>
+    
