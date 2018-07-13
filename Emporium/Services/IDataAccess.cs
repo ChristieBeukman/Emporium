@@ -23,6 +23,7 @@ namespace Emporium.Services
         void ClockOutUser(Timesheet t);
         ObservableCollection<Timesheet> GetTimesheets();
         ObservableCollection<User_Timesheet> GetClockedInWaitors(int i);
+        ObservableCollection<User_Timesheet> GetManagers();
         ObservableCollection<eUserLevel> GetUserLevels();
 	}
     public class DataAccess : IDataAccess
@@ -106,6 +107,8 @@ namespace Emporium.Services
             var Query = (from u in _Context.Users
                          join t in _Context.Timesheets
                          on u.UserId equals t.UserId
+                         join l in _Context.eUserLevels
+                         on u.UserLevelId equals l.UserLevelId
                          where t.IsClockedIn == i
                          select new User_Timesheet
                          {
@@ -115,7 +118,9 @@ namespace Emporium.Services
                              FullName = u.Name + " " + u.Surname,
                              ClockIn = t.ClockIn,
                              ClockOut = t.ClockOut,
-                             Image = u.Image
+                             Image = u.Image,
+                             LevelName = l.Name
+                             
 
                          }).ToList();
             foreach (var item in Query)
@@ -134,6 +139,38 @@ namespace Emporium.Services
                         select t;
 
             return tom;
+        }
+
+        public ObservableCollection<User_Timesheet> GetManagers()
+        {
+            ObservableCollection<User_Timesheet> time = new ObservableCollection<User_Timesheet>();
+
+            var Query = (from u in _Context.Users
+                         join t in _Context.Timesheets
+                         on u.UserId equals t.UserId
+                         join l in _Context.eUserLevels
+                         on u.UserLevelId equals l.UserLevelId
+                         where t.IsClockedIn <4
+                         select new User_Timesheet
+                         {
+                             UserId = u.UserId,
+                             Name = u.Name,
+                             Surname = u.Surname,
+                             FullName = u.Name + " " + u.Surname,
+                             ClockIn = t.ClockIn,
+                             ClockOut = t.ClockOut,
+                             Image = u.Image,
+                             LevelName = l.Name,
+                             Password = u.Password
+
+
+                         }).ToList();
+            foreach (var item in Query)
+            {
+                time.Add(item);
+            }
+
+            return time;
         }
 
         public User_UserLevel GetUserDetails(int userId)
@@ -259,6 +296,7 @@ namespace Emporium.Services
             return Query;
         }
 
+        
     }
 
 }
