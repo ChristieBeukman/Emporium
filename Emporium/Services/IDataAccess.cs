@@ -22,7 +22,7 @@ namespace Emporium.Services
         void ClockInUser(Timesheet t);
         void ClockOutUser(Timesheet t);
         ObservableCollection<Timesheet> GetTimesheets();
-        ObservableCollection<User_Timesheet> GetClockedInWaitors(int i);
+        ObservableCollection<User_Timesheet> GetClockedInStaff(int i);
         ObservableCollection<User_Timesheet> GetManagers();
         ObservableCollection<eUserLevel> GetUserLevels();
 	}
@@ -100,7 +100,7 @@ namespace Emporium.Services
             return us;
         }
 
-        public ObservableCollection<User_Timesheet> GetClockedInWaitors(int i)
+        public ObservableCollection<User_Timesheet> GetClockedInStaff(int i)
         {
             ObservableCollection<User_Timesheet> time = new ObservableCollection<User_Timesheet>();
 
@@ -150,7 +150,7 @@ namespace Emporium.Services
                          on u.UserId equals t.UserId
                          join l in _Context.eUserLevels
                          on u.UserLevelId equals l.UserLevelId
-                         where t.IsClockedIn <4
+                         where u.UserLevelId < 4
                          select new User_Timesheet
                          {
                              UserId = u.UserId,

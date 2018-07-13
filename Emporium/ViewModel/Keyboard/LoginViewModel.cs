@@ -322,7 +322,7 @@ namespace Emporium.ViewModel.Keyboard
             if (ClockedInToggle == true)
             {
                 ClockedIn.Clear();
-                foreach (var item in _ServiceProxy.GetClockedInWaitors(1))
+                foreach (var item in _ServiceProxy.GetClockedInStaff(1))
                 {
                     ClockedIn.Add(item);
                 }
@@ -332,7 +332,7 @@ namespace Emporium.ViewModel.Keyboard
             else
             {
                 ClockedIn.Clear();
-                foreach (var item in _ServiceProxy.GetClockedInWaitors(0))
+                foreach (var item in _ServiceProxy.GetClockedInStaff(0))
                 {
                     ClockedIn.Add(item);
                 }
@@ -344,7 +344,7 @@ namespace Emporium.ViewModel.Keyboard
         void GetClockedOutPersonel()
         {
             ClockedIn.Clear();
-            foreach (var item in _ServiceProxy.GetClockedInWaitors(0))
+            foreach (var item in _ServiceProxy.GetClockedInStaff(0))
             {
                 ClockedIn.Add(item);
             }

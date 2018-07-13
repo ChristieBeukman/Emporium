@@ -130,9 +130,17 @@
     <Compile Include="ViewModel\Keyboard\LoginViewModel.cs" />
     <Compile Include="ViewModel\Keyboard\NumPadViewModel.cs" />
     <Compile Include="ViewModel\Keyboard\PasswordResetViewModel.cs" />
+    <Compile Include="ViewModel\Login\ClockInViewModel.cs" />
+    <Compile Include="ViewModel\Login\LoginStaffViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\Table\TableViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
+    <Compile Include="View\Login\ClockInStaffView.xaml.cs">
+      <DependentUpon>ClockInStaffView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Login\LoginStaffView.xaml.cs">
+      <DependentUpon>LoginStaffView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Table\TableView.xaml.cs">
       <DependentUpon>TableView.xaml</DependentUpon>
     </Compile>
@@ -167,6 +175,14 @@
     <Page Include="View\KeyboardViews\PasswordResetView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Login\ClockInStaffView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Login\LoginStaffView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

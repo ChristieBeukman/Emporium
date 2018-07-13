@@ -3,6 +3,7 @@ using Emporium.Messenger;
 using Emporium.ViewModel.Configuration;
 using Emporium.ViewModel.Keyboard;
 using Emporium.ViewModel.Table;
+using Emporium.ViewModel.Login;
 
 namespace Emporium.ViewModel
 {
@@ -26,7 +27,7 @@ namespace Emporium.ViewModel
         public MainViewModel()
         {
             //Startup VM
-            CurrentViewModel = MainViewModel.loginViewModel;                                                                
+            CurrentViewModel = MainViewModel.loginStaffViewModel;                                                                
 
             // Register the messenger to listen for ViewmodelControl messages
             MessengerInstance.Register<ViewModelControlMessage<ViewModelList>>(this, ReceiveViewModelControlMessage);       
@@ -55,7 +56,9 @@ namespace Emporium.ViewModel
         /// </summary>
         private static readonly ConfigurationViewModel configurationViewModel = new ConfigurationViewModel();
         private static readonly KeyboardBase keyboardViewModel = new KeyboardBase();
-        private static readonly LoginViewModel loginViewModel = new LoginViewModel();
+       // private static readonly LoginViewModel loginViewModel = new LoginViewModel();
+        private static readonly LoginStaffViewModel loginStaffViewModel = new LoginStaffViewModel() ;
+        private static readonly ClockInViewModel clockInViewModel = new ClockInViewModel();
         private static readonly TableViewModel tableViewModel = new TableViewModel();
         private static readonly KeyPadViewModel keyPadViewModel = new KeyPadViewModel();
         private static readonly NumPadViewModel numPadViewModel = new NumPadViewModel();
@@ -77,7 +80,8 @@ namespace Emporium.ViewModel
             switch (vm)
             {
                 case ViewModelList.Login:
-                    CurrentViewModel = MainViewModel.loginViewModel;
+                    //CurrentViewModel = MainViewModel.loginViewModel;
+                    CurrentViewModel = MainViewModel.loginStaffViewModel;
                     break;
                 case ViewModelList.Table:
                     CurrentViewModel = MainViewModel.tableViewModel;
@@ -102,6 +106,9 @@ namespace Emporium.ViewModel
                     break;
                 case ViewModelList.PasswordReset:
                     CurrentViewModel = MainViewModel.passwordResetViewModel;
+                    break;
+                case ViewModelList.ClockIn:
+                    CurrentViewModel = MainViewModel.clockInViewModel;
                     break;
                 default:
                     break;
