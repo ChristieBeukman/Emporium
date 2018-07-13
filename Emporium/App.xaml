@@ -7,6 +7,8 @@
               xmlns:key="clr-namespace:Emporium.ViewModel.Keyboard"
              xmlns:con="clr-namespace:Emporium.ViewModel.Configuration"
              xmlns:conView="clr-namespace:Emporium.View.Configuration"
+             xmlns:tblView="clr-namespace:Emporium.View.Table"
+             xmlns:tbl="clr-namespace:Emporium.ViewModel.Table"
              d1p1:Ignorable="d" xmlns:d1p1="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:Emporium.ViewModel">
   <Application.Resources>
@@ -41,6 +43,9 @@
             </DataTemplate>
             <DataTemplate DataType="{x:Type key:PasswordResetViewModel}">
                 <KeyView:PasswordResetView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type tbl:TableViewModel}">
+                <tblView:TableView/>
             </DataTemplate>
         </ResourceDictionary>
   </Application.Resources>

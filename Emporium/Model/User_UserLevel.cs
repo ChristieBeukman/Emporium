@@ -61,6 +61,7 @@ namespace Emporium.Model
         public string FingerPrint { get; set; }
         public string BankNo { get; set; }
         public string FullName { get; set; }
+        public string Image { get; set; }
 
         public int TimesheetId { get; set; }
         public Nullable<System.DateTime> ClockIn { get; set; }

@@ -22,7 +22,7 @@ namespace Emporium.Services
         void ClockInUser(Timesheet t);
         void ClockOutUser(Timesheet t);
         ObservableCollection<Timesheet> GetTimesheets();
-        ObservableCollection<User_Timesheet> GetClockedInWaitors();
+        ObservableCollection<User_Timesheet> GetClockedInWaitors(int i);
         ObservableCollection<eUserLevel> GetUserLevels();
 	}
     public class DataAccess : IDataAccess
@@ -99,14 +99,14 @@ namespace Emporium.Services
             return us;
         }
 
-        public ObservableCollection<User_Timesheet> GetClockedInWaitors()
+        public ObservableCollection<User_Timesheet> GetClockedInWaitors(int i)
         {
             ObservableCollection<User_Timesheet> time = new ObservableCollection<User_Timesheet>();
-            DateTime day = new DateTime(2018, 07, 07);
+
             var Query = (from u in _Context.Users
                          join t in _Context.Timesheets
                          on u.UserId equals t.UserId
-                         where t.ClockOut != day
+                         where t.IsClockedIn == i
                          select new User_Timesheet
                          {
                              UserId = u.UserId,
@@ -114,7 +114,8 @@ namespace Emporium.Services
                              Surname = u.Surname,
                              FullName = u.Name + " " + u.Surname,
                              ClockIn = t.ClockIn,
-                             ClockOut = t.ClockOut
+                             ClockOut = t.ClockOut,
+                             Image = u.Image
 
                          }).ToList();
             foreach (var item in Query)

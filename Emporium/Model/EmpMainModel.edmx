@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Model.Store" Provider="System.Data.SqlServerCe.4.0" ProviderManifestToken="4.0" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="Model.Store" Provider="System.Data.SqlServerCe.4.0" ProviderManifestToken="4.0" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="eUserLevels">
           <Key>
             <PropertyRef Name="UserLevelId" />
@@ -28,9 +28,10 @@
             <PropertyRef Name="TimesheetId" />
           </Key>
           <Property Name="TimesheetId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="UserId" Type="int" Nullable="false" />
           <Property Name="ClockIn" Type="datetime" />
           <Property Name="ClockOut" Type="datetime" />
+          <Property Name="IsClockedIn" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -104,18 +105,35 @@
             <End Role="User" EntitySet="User" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="EmporiumEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="eUserLevels" EntityType="Model.eUserLevel" />
+          <EntitySet Name="Tables" EntityType="Model.Table" />
+          <EntitySet Name="Timesheets" EntityType="Model.Timesheet" />
+          <EntitySet Name="Users" EntityType="Model.User" />
+          <AssociationSet Name="User_UserLevel" Association="Model.User_UserLevel">
+            <End Role="eUserLevel" EntitySet="eUserLevels" />
+            <End Role="User" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="User_Table_Foreign" Association="Model.User_Table_Foreign">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Table" EntitySet="Tables" />
+          </AssociationSet>
+          <AssociationSet Name="User_Timesheet" Association="Model.User_Timesheet">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Timesheet" EntitySet="Timesheets" />
+          </AssociationSet>
+        </EntityContainer>
         <EntityType Name="eUserLevel">
           <Key>
             <PropertyRef Name="UserLevelId" />
           </Key>
           <Property Name="UserLevelId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Users" Relationship="Self.User_UserLevel" FromRole="eUserLevels" ToRole="User" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Users" Relationship="Model.User_UserLevel" FromRole="eUserLevel" ToRole="User" />
         </EntityType>
         <EntityType Name="Table">
           <Key>
@@ -124,29 +142,30 @@
           <Property Name="TableId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="TableNo" Type="Int32" Nullable="false" />
           <Property Name="TimeStarted" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="BillAmount" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="BillAmount" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
           <Property Name="Pax" Type="Int32" Nullable="false" />
           <Property Name="UserId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="User" Relationship="Self.User_Table_Foreign" FromRole="Tables" ToRole="User" />
+          <NavigationProperty Name="User" Relationship="Model.User_Table_Foreign" FromRole="Table" ToRole="User" />
         </EntityType>
         <EntityType Name="Timesheet">
           <Key>
             <PropertyRef Name="TimesheetId" />
           </Key>
           <Property Name="TimesheetId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UserId" Type="Int32" Nullable="false" />
           <Property Name="ClockIn" Type="DateTime" Precision="3" />
           <Property Name="ClockOut" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="User" Relationship="Self.User_Timesheet" FromRole="Timesheet" ToRole="User" />
+          <Property Name="IsClockedIn" Type="Int32" Nullable="false" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="Model.User_Timesheet" FromRole="Timesheet" ToRole="User" />
         </EntityType>
         <EntityType Name="User">
           <Key>
             <PropertyRef Name="UserId" />
           </Key>
           <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Surname" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Password" Type="String" MaxLength="6" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Surname" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="6" FixedLength="false" Unicode="true" />
           <Property Name="UserLevelId" Type="Int32" Nullable="false" />
           <Property Name="Number" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="IDNum" Type="String" MaxLength="13" FixedLength="false" Unicode="true" />
@@ -156,15 +175,15 @@
           <Property Name="FingerPrint" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="BankNo" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="Image" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="eUserLevel" Relationship="Self.User_UserLevel" FromRole="User" ToRole="eUserLevels" />
-          <NavigationProperty Name="Tables" Relationship="Self.User_Table_Foreign" FromRole="User" ToRole="Tables" />
-          <NavigationProperty Name="Timesheets" Relationship="Self.User_Timesheet" FromRole="User" ToRole="Timesheet" />
+          <NavigationProperty Name="eUserLevel" Relationship="Model.User_UserLevel" FromRole="User" ToRole="eUserLevel" />
+          <NavigationProperty Name="Tables" Relationship="Model.User_Table_Foreign" FromRole="User" ToRole="Table" />
+          <NavigationProperty Name="Timesheets" Relationship="Model.User_Timesheet" FromRole="User" ToRole="Timesheet" />
         </EntityType>
         <Association Name="User_UserLevel">
-          <End Role="eUserLevels" Type="Self.eUserLevel" Multiplicity="1" />
-          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <End Type="Model.eUserLevel" Role="eUserLevel" Multiplicity="1" />
+          <End Type="Model.User" Role="User" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="eUserLevels">
+            <Principal Role="eUserLevel">
               <PropertyRef Name="UserLevelId" />
             </Principal>
             <Dependent Role="User">
@@ -173,20 +192,20 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="User_Table_Foreign">
-          <End Role="User" Type="Self.User" Multiplicity="1" />
-          <End Role="Tables" Type="Self.Table" Multiplicity="*" />
+          <End Type="Model.User" Role="User" Multiplicity="1" />
+          <End Type="Model.Table" Role="Table" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="User">
               <PropertyRef Name="UserId" />
             </Principal>
-            <Dependent Role="Tables">
+            <Dependent Role="Table">
               <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="User_Timesheet">
-          <End Role="User" Type="Self.User" Multiplicity="1" />
-          <End Role="Timesheet" Type="Self.Timesheet" Multiplicity="*" />
+          <End Type="Model.User" Role="User" Multiplicity="1" />
+          <End Type="Model.Timesheet" Role="Timesheet" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="User">
               <PropertyRef Name="UserId" />
@@ -196,24 +215,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="EmporiumEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="eUserLevels" EntityType="Self.eUserLevel" />
-          <EntitySet Name="Tables" EntityType="Self.Table" />
-          <EntitySet Name="Timesheets" EntityType="Self.Timesheet" />
-          <EntitySet Name="Users" EntityType="Self.User" />
-          <AssociationSet Name="User_UserLevel" Association="Self.User_UserLevel">
-            <End Role="eUserLevels" EntitySet="eUserLevels" />
-            <End Role="User" EntitySet="Users" />
-          </AssociationSet>
-          <AssociationSet Name="User_Table_Foreign" Association="Self.User_Table_Foreign">
-            <End Role="User" EntitySet="Users" />
-            <End Role="Tables" EntitySet="Tables" />
-          </AssociationSet>
-          <AssociationSet Name="User_Timesheet" Association="Self.User_Timesheet">
-            <End Role="User" EntitySet="Users" />
-            <End Role="Timesheet" EntitySet="Timesheets" />
-          </AssociationSet>
-        </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -223,49 +224,50 @@
           <EntitySetMapping Name="eUserLevels">
             <EntityTypeMapping TypeName="Model.eUserLevel">
               <MappingFragment StoreEntitySet="eUserLevels">
-                <ScalarProperty Name="UserLevelId" ColumnName="UserLevelId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="UserLevelId" ColumnName="UserLevelId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Tables">
             <EntityTypeMapping TypeName="Model.Table">
               <MappingFragment StoreEntitySet="Tables">
-                <ScalarProperty Name="TableId" ColumnName="TableId" />
-                <ScalarProperty Name="TableNo" ColumnName="TableNo" />
-                <ScalarProperty Name="TimeStarted" ColumnName="TimeStarted" />
-                <ScalarProperty Name="BillAmount" ColumnName="BillAmount" />
-                <ScalarProperty Name="Pax" ColumnName="Pax" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Pax" ColumnName="Pax" />
+                <ScalarProperty Name="BillAmount" ColumnName="BillAmount" />
+                <ScalarProperty Name="TimeStarted" ColumnName="TimeStarted" />
+                <ScalarProperty Name="TableNo" ColumnName="TableNo" />
+                <ScalarProperty Name="TableId" ColumnName="TableId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Timesheets">
             <EntityTypeMapping TypeName="Model.Timesheet">
               <MappingFragment StoreEntitySet="Timesheet">
-                <ScalarProperty Name="TimesheetId" ColumnName="TimesheetId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="ClockIn" ColumnName="ClockIn" />
+                <ScalarProperty Name="IsClockedIn" ColumnName="IsClockedIn" />
                 <ScalarProperty Name="ClockOut" ColumnName="ClockOut" />
+                <ScalarProperty Name="ClockIn" ColumnName="ClockIn" />
+                <ScalarProperty Name="TimesheetId" ColumnName="TimesheetId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="Model.User">
               <MappingFragment StoreEntitySet="User">
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Surname" ColumnName="Surname" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="UserLevelId" ColumnName="UserLevelId" />
-                <ScalarProperty Name="Number" ColumnName="Number" />
-                <ScalarProperty Name="IDNum" ColumnName="IDNum" />
-                <ScalarProperty Name="Bank" ColumnName="Bank" />
-                <ScalarProperty Name="AccountType" ColumnName="AccountType" />
-                <ScalarProperty Name="BranchNo" ColumnName="BranchNo" />
-                <ScalarProperty Name="FingerPrint" ColumnName="FingerPrint" />
-                <ScalarProperty Name="BankNo" ColumnName="BankNo" />
                 <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="BankNo" ColumnName="BankNo" />
+                <ScalarProperty Name="FingerPrint" ColumnName="FingerPrint" />
+                <ScalarProperty Name="BranchNo" ColumnName="BranchNo" />
+                <ScalarProperty Name="AccountType" ColumnName="AccountType" />
+                <ScalarProperty Name="Bank" ColumnName="Bank" />
+                <ScalarProperty Name="IDNum" ColumnName="IDNum" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="UserLevelId" ColumnName="UserLevelId" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

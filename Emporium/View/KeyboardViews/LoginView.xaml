@@ -15,17 +15,31 @@
 
                 <Border Padding="2"
                         Height="50">
-                    <Button Content="Clock-In"/>
+                    <Button Content="{Binding ClockedInOutText}" Command="{Binding GetClockedInCommand}"/>
                 </Border>
                 <ListView Height="456" Width="300" Background="{x:Null}"
                           ItemsSource="{Binding ClockedIn}"
+                          SelectedItem="{Binding SelectedClockedIn}"
                            Style="{DynamicResource ListViewStyle1}">
                     <ListView.View>
                     
                     <GridView>
-                            
+                            <GridViewColumn Width="50"
+                                            HeaderContainerStyle="{DynamicResource ColumnHeaderStyle}" 
+                                            HeaderTemplate="{StaticResource ColumnHeaderTemplate}" >
 
-                            <GridViewColumn Width="160"
+                                <GridViewColumn.CellTemplate>
+
+                                    <DataTemplate>
+                                        <Border Width="50" Height="50">
+                                            <Image Source="{Binding Image }" />
+                                        </Border>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+
+
+                            <GridViewColumn Width="260"
                                             HeaderContainerStyle="{DynamicResource ColumnHeaderStyle}" 
                                             HeaderTemplate="{StaticResource ColumnHeaderTemplate}" >
                                 

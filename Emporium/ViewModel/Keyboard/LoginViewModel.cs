@@ -34,7 +34,11 @@ namespace Emporium.ViewModel.Keyboard
             GetUsers();
             SelectionChangedCommand = new RelayCommand(ExecuteSelectionChanged);
             ClockedIn = new ObservableCollection<User_Timesheet>();
-            ExecuteClockin();
+            GetClockedInPersonel();
+
+            GetClockedInCommand = new RelayCommand(GetClockedInPersonel);
+            GetClockedOutCommand = new RelayCommand(GetClockedOutPersonel);
+            SelectedClockedIn = new User_Timesheet();
         }
 
         IDataAccess _ServiceProxy;
@@ -159,7 +163,7 @@ namespace Emporium.ViewModel.Keyboard
         /// </summary>
         void ExecuteVerifyLogin()
         {
-            Credentials = _ServiceProxy.VerifyLogin(Credentials.UserId, Message);
+            Credentials = _ServiceProxy.VerifyLogin(SelectedClockedIn.UserId, Message);
 
             if (Credentials != null)
             {
@@ -240,12 +244,83 @@ namespace Emporium.ViewModel.Keyboard
                 RaisePropertyChanged("ClockedIn");
             }
         }
+        private User_Timesheet _SelectedClockedIn;
+        private bool _clockedInToggle = true;
+        private string _ClockedInOutText = "Clocked In Personel";
 
+        public RelayCommand GetClockedInCommand { get; set; }
+        public RelayCommand GetClockedOutCommand { get; set; }
 
-        void ExecuteClockin()
+        public bool ClockedInToggle
+        {
+            get
+            {
+                return _clockedInToggle;
+            }
+
+            set
+            {
+                _clockedInToggle = value;
+                RaisePropertyChanged("ClockedInToggle");
+            }
+        }
+
+        public string ClockedInOutText
+        {
+            get
+            {
+                return _ClockedInOutText;
+            }
+
+            set
+            {
+                _ClockedInOutText = value;
+                RaisePropertyChanged("ClockedInOutText");
+            }
+        }
+
+        public User_Timesheet SelectedClockedIn
+        {
+            get
+            {
+                return _SelectedClockedIn;
+            }
+
+            set
+            {
+                _SelectedClockedIn = value;
+                RaisePropertyChanged("SelectedClockedIn");
+            }
+        }
+
+        void GetClockedInPersonel()
+        {
+            if (ClockedInToggle == true)
+            {
+                ClockedIn.Clear();
+                foreach (var item in _ServiceProxy.GetClockedInWaitors(1))
+                {
+                    ClockedIn.Add(item);
+                }
+                ClockedInToggle = false;
+                ClockedInOutText = "Clocked In Personel";
+            }
+            else
+            {
+                ClockedIn.Clear();
+                foreach (var item in _ServiceProxy.GetClockedInWaitors(0))
+                {
+                    ClockedIn.Add(item);
+                }
+                ClockedInToggle = true;
+                ClockedInOutText = "Clocked Out Personel";
+            }
+        }
+
+        void GetClockedOutPersonel()
         {
             ClockedIn.Clear();
-            foreach (var item in _ServiceProxy.GetClockedInWaitors())
+            foreach (var item in _ServiceProxy.GetClockedInWaitors(0))
             {
                 ClockedIn.Add(item);
             }

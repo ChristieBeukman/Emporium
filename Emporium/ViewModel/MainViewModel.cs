@@ -26,7 +26,7 @@ namespace Emporium.ViewModel
         public MainViewModel()
         {
             //Startup VM
-            CurrentViewModel = MainViewModel.configurationViewModel;                                                                
+            CurrentViewModel = MainViewModel.loginViewModel;                                                                
 
             // Register the messenger to listen for ViewmodelControl messages
             MessengerInstance.Register<ViewModelControlMessage<ViewModelList>>(this, ReceiveViewModelControlMessage);       

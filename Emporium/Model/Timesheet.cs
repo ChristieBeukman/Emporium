@@ -15,9 +15,10 @@ namespace Emporium.Model
     public partial class Timesheet
     {
         public int TimesheetId { get; set; }
-        public int UserId { get; set; }
         public Nullable<System.DateTime> ClockIn { get; set; }
         public Nullable<System.DateTime> ClockOut { get; set; }
+        public int IsClockedIn { get; set; }
+        public int UserId { get; set; }
     
         public virtual User User { get; set; }
     }
