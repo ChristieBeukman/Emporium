@@ -286,10 +286,14 @@ namespace Emporium.ViewModel.Configuration
 
         void ExecuteAddUser()
         {
+            UserClockinStatu status = new UserClockinStatu();
             _ServiceProxy.AddBlankUser();
             SelectedUser =  _ServiceProxy.GetUserDetails("Please Enter Name", "Please Enter Surname");
             Logger.UserId = SelectedUser.UserId;
             Logger.UserPropertyToEdit = UserProperty.Name;
+            status.UserId = SelectedUser.UserId;
+            status.Status = 0;
+            _ServiceProxy.AddClockInStatus(status);
             ViewModelLocator.RegisterViewModel(ViewModelList.ConfigKeyboard);
             MessengerInstance.Send<ViewModelControlMessage<ViewModelList>>(new ViewModelControlMessage<ViewModelList>(ViewModelList.ConfigKeyboard));
             MessengerInstance.Send<KeyboardMessage<UserProperty>>(new KeyboardMessage<UserProperty>(UserProperty.Name));

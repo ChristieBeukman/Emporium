@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Emporium.Model
 {
+
     public class User_UserLevel
     {
         public int UserId { get; set; }
@@ -23,7 +24,9 @@ namespace Emporium.Model
         public string FullName { get; set; }
 
         public string LevelName { get; set; }
+
     }
+
     public class UserTables
     {
         public int TableId { get; set; }
@@ -71,6 +74,7 @@ namespace Emporium.Model
         public Nullable<System.DateTime> ClockIn { get; set; }
         public Nullable<System.DateTime> ClockOut { get; set; }
     }
+
 
 
 }
