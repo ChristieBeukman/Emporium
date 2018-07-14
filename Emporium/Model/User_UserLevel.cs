@@ -22,6 +22,7 @@ namespace Emporium.Model
         public string FingerPrint { get; set; }
         public string BankNo { get; set; }
         public string FullName { get; set; }
+        public string Image { get; set; }
 
         public string LevelName { get; set; }
 

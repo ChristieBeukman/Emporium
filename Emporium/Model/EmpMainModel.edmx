@@ -23,6 +23,13 @@
           <Property Name="Pax" Type="int" Nullable="false" />
           <Property Name="UserId" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="test">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="image" Type="image" Nullable="false" />
+        </EntityType>
         <EntityType Name="Timesheet">
           <Key>
             <PropertyRef Name="TimesheetId" />
@@ -109,6 +116,7 @@
         <EntityContainer Name="ModelStoreContainer">
           <EntitySet Name="eUserLevels" EntityType="Self.eUserLevels" store:Type="Tables" />
           <EntitySet Name="Tables" EntityType="Self.Tables" store:Type="Tables" />
+          <EntitySet Name="test" EntityType="Self.test" store:Type="Tables" />
           <EntitySet Name="Timesheet" EntityType="Self.Timesheet" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" store:Type="Tables" />
           <EntitySet Name="UserClockinStatus" EntityType="Self.UserClockinStatus" store:Type="Tables" />
@@ -136,6 +144,7 @@
         <EntityContainer Name="EmporiumEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="eUserLevels" EntityType="Model.eUserLevel" />
           <EntitySet Name="Tables" EntityType="Model.Table" />
+          <EntitySet Name="tests" EntityType="Model.test" />
           <EntitySet Name="Timesheets" EntityType="Model.Timesheet" />
           <EntitySet Name="Users" EntityType="Model.User" />
           <EntitySet Name="UserClockinStatus" EntityType="Model.UserClockinStatu" />
@@ -175,6 +184,13 @@
           <Property Name="Pax" Type="Int32" Nullable="false" />
           <Property Name="UserId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="User" Relationship="Model.User_Table_Foreign" FromRole="Table" ToRole="User" />
+        </EntityType>
+        <EntityType Name="test">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="image" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
         </EntityType>
         <EntityType Name="Timesheet">
           <Key>
@@ -288,6 +304,14 @@
                 <ScalarProperty Name="TimeStarted" ColumnName="TimeStarted" />
                 <ScalarProperty Name="TableNo" ColumnName="TableNo" />
                 <ScalarProperty Name="TableId" ColumnName="TableId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tests">
+            <EntityTypeMapping TypeName="Model.test">
+              <MappingFragment StoreEntitySet="test">
+                <ScalarProperty Name="image" ColumnName="image" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
