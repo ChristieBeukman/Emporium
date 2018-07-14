@@ -8,6 +8,9 @@
              xmlns:GalaSoft_MvvmLight_Command="http://www.galasoft.ch/mvvmlight"
              mc:Ignorable="d" 
               DataContext="{Binding clockInViewModel, Mode=OneWay, Source={StaticResource Locator}}">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="converter"/>
+    </UserControl.Resources>
     <Grid >
         <Grid.RowDefinitions>
             <RowDefinition Height="80"/>
@@ -18,6 +21,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="450"/>
                 <ColumnDefinition/>
+                <ColumnDefinition Width="100"/>
 
             </Grid.ColumnDefinitions>
             <Border Height="600" Width="410" Grid.Column="0" Padding="5">
@@ -228,6 +232,20 @@
 
                     </StackPanel>
                 </Border>
+            </Border>
+            <Border Grid.Column="2">
+                <Button Height="100"
+                        Width="100"
+                        Content="Sign Out"
+                        Visibility="{Binding EnableClockInControl, Converter={StaticResource converter}}"
+                        Command="{Binding SignOutCommand}"/>
+            </Border>
+            <Border Grid.Column="2">
+                <Button Height="100"
+                        Width="100"
+                        Content="Sign Out"
+                        
+                        Command="{Binding SignOutCommand}"/>
             </Border>
 
 

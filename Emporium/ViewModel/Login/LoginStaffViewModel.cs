@@ -40,6 +40,7 @@ namespace Emporium.ViewModel.Login
             EnterCommand = new RelayCommand(ExecuteVerifyLogin);
             SelectionChangedCommand = new RelayCommand(ExecuteSelectionChanged);
             ClockInCommand = new RelayCommand(ExecuteClockIn);
+            CancelClockInCommand = new RelayCommand(ExecuteCancelClockIn);
         }
 
         IDataAccess _ServiceProxy;
@@ -49,6 +50,7 @@ namespace Emporium.ViewModel.Login
         private User_ClockInStatus _SelectedClockedInStaffMember;
         private User _Credentials;
         private bool _EnableClockIn;
+        private bool _EnableClockInControl = true;
 
         /// <summary>
         /// The text that will be displayed while logging in
@@ -231,13 +233,40 @@ namespace Emporium.ViewModel.Login
 
         public RelayCommand ClockInCommand { get; set; }
 
+        public bool EnableClockInControl
+        {
+            get
+            {
+                return _EnableClockInControl;
+            }
+
+            set
+            {
+                _EnableClockInControl = value;
+                RaisePropertyChanged("EnableClockInControl");
+            }
+        }
+
         /// <summary>
         /// Enables the managers to login for clocking
         /// </summary>
         void ExecuteClockIn()
         {
             EnableClockIn = true;
+            EnableClockInControl = false;
             GetManagers();
+        }
+
+        public RelayCommand CancelClockInCommand { get; set; }
+
+        /// <summary>
+        /// Cancel the Clockin process
+        /// </summary>
+        void ExecuteCancelClockIn()
+        {
+            EnableClockIn = false;
+            EnableClockInControl = true;
+            GetClockedInStaff();
         }
 
         #region Numpad

@@ -22,6 +22,7 @@ namespace Emporium.ViewModel.Login
             GetClockedInStaff();
             UserToClockIn = new Timesheet();
             ClockinStaffCommand = new RelayCommand(ExecuteClockInStaff);
+            SignOutCommand = new RelayCommand(ExecuteSignOut);
         }
         IDataAccess _ServiceProxy;
         private Timesheet _UserToClockIn;
@@ -73,6 +74,15 @@ namespace Emporium.ViewModel.Login
                 Message = string.Empty;
                 Output = string.Empty;
             }
+        }
+
+        public RelayCommand SignOutCommand { get; set; }
+
+        void ExecuteSignOut()
+        {
+            ViewModelLocator.RegisterViewModel(ViewModelList.Login);
+            MessengerInstance.Send<ViewModelControlMessage<ViewModelList>>(new ViewModelControlMessage<ViewModelList>(ViewModelList.Login));
+            ViewModelLocator.Cleanup(ViewModelList.ClockIn);
         }
 
     }
