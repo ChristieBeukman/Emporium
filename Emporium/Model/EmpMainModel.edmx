@@ -30,7 +30,6 @@
           <Property Name="TimesheetId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ClockIn" Type="datetime" />
           <Property Name="ClockOut" Type="datetime" />
-          <Property Name="IsClockedIn" Type="int" Nullable="false" />
           <Property Name="UserId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="User">
@@ -51,6 +50,26 @@
           <Property Name="BankNo" Type="nvarchar" MaxLength="100" />
           <Property Name="Image" Type="nvarchar" MaxLength="100" />
         </EntityType>
+        <EntityType Name="UserClockinStatus">
+          <Key>
+            <PropertyRef Name="StatusId" />
+          </Key>
+          <Property Name="StatusId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="User_ClockInStatus">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="UserClockinStatus" Type="Self.UserClockinStatus" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="UserClockinStatus">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="User_Table_Foreign">
           <End Role="User" Type="Self.User" Multiplicity="1" />
           <End Role="Tables" Type="Self.Tables" Multiplicity="*" />
@@ -92,6 +111,11 @@
           <EntitySet Name="Tables" EntityType="Self.Tables" store:Type="Tables" />
           <EntitySet Name="Timesheet" EntityType="Self.Timesheet" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" store:Type="Tables" />
+          <EntitySet Name="UserClockinStatus" EntityType="Self.UserClockinStatus" store:Type="Tables" />
+          <AssociationSet Name="User_ClockInStatus" Association="Self.User_ClockInStatus">
+            <End Role="User" EntitySet="User" />
+            <End Role="UserClockinStatus" EntitySet="UserClockinStatus" />
+          </AssociationSet>
           <AssociationSet Name="User_Table_Foreign" Association="Self.User_Table_Foreign">
             <End Role="User" EntitySet="User" />
             <End Role="Tables" EntitySet="Tables" />
@@ -114,6 +138,7 @@
           <EntitySet Name="Tables" EntityType="Model.Table" />
           <EntitySet Name="Timesheets" EntityType="Model.Timesheet" />
           <EntitySet Name="Users" EntityType="Model.User" />
+          <EntitySet Name="UserClockinStatus" EntityType="Model.UserClockinStatu" />
           <AssociationSet Name="User_UserLevel" Association="Model.User_UserLevel">
             <End Role="eUserLevel" EntitySet="eUserLevels" />
             <End Role="User" EntitySet="Users" />
@@ -125,6 +150,10 @@
           <AssociationSet Name="User_Timesheet" Association="Model.User_Timesheet">
             <End Role="User" EntitySet="Users" />
             <End Role="Timesheet" EntitySet="Timesheets" />
+          </AssociationSet>
+          <AssociationSet Name="User_ClockInStatus" Association="Model.User_ClockInStatus">
+            <End Role="User" EntitySet="Users" />
+            <End Role="UserClockinStatu" EntitySet="UserClockinStatus" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="eUserLevel">
@@ -154,7 +183,6 @@
           <Property Name="TimesheetId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ClockIn" Type="DateTime" Precision="3" />
           <Property Name="ClockOut" Type="DateTime" Precision="3" />
-          <Property Name="IsClockedIn" Type="Int32" Nullable="false" />
           <Property Name="UserId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="User" Relationship="Model.User_Timesheet" FromRole="Timesheet" ToRole="User" />
         </EntityType>
@@ -178,6 +206,16 @@
           <NavigationProperty Name="eUserLevel" Relationship="Model.User_UserLevel" FromRole="User" ToRole="eUserLevel" />
           <NavigationProperty Name="Tables" Relationship="Model.User_Table_Foreign" FromRole="User" ToRole="Table" />
           <NavigationProperty Name="Timesheets" Relationship="Model.User_Timesheet" FromRole="User" ToRole="Timesheet" />
+          <NavigationProperty Name="UserClockinStatus" Relationship="Model.User_ClockInStatus" FromRole="User" ToRole="UserClockinStatu" />
+        </EntityType>
+        <EntityType Name="UserClockinStatu">
+          <Key>
+            <PropertyRef Name="StatusId" />
+          </Key>
+          <Property Name="StatusId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="Model.User_ClockInStatus" FromRole="UserClockinStatu" ToRole="User" />
         </EntityType>
         <Association Name="User_UserLevel">
           <End Type="Model.eUserLevel" Role="eUserLevel" Multiplicity="1" />
@@ -215,7 +253,19 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        <Association Name="User_ClockInStatus">
+          <End Type="Model.User" Role="User" Multiplicity="1" />
+          <End Type="Model.UserClockinStatu" Role="UserClockinStatu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="UserClockinStatu">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -245,7 +295,6 @@
             <EntityTypeMapping TypeName="Model.Timesheet">
               <MappingFragment StoreEntitySet="Timesheet">
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="IsClockedIn" ColumnName="IsClockedIn" />
                 <ScalarProperty Name="ClockOut" ColumnName="ClockOut" />
                 <ScalarProperty Name="ClockIn" ColumnName="ClockIn" />
                 <ScalarProperty Name="TimesheetId" ColumnName="TimesheetId" />
@@ -268,6 +317,15 @@
                 <ScalarProperty Name="Surname" ColumnName="Surname" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserClockinStatus">
+            <EntityTypeMapping TypeName="Model.UserClockinStatu">
+              <MappingFragment StoreEntitySet="UserClockinStatus">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

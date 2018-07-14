@@ -18,6 +18,7 @@ using Microsoft.Practices.ServiceLocation;
 using Emporium.ViewModel.Configuration;
 using Emporium.ViewModel.Keyboard;
 using Emporium.ViewModel.Table;
+using Emporium.ViewModel.Login;
 using Emporium.Messenger;
 
 namespace Emporium.ViewModel
@@ -45,6 +46,7 @@ namespace Emporium.ViewModel
             SimpleIoc.Default.Register<TableViewModel>();
             SimpleIoc.Default.Register<ConfigUsersKeyboardViewModel>();
             SimpleIoc.Default.Register<MainViewModel>();
+            SimpleIoc.Default.Register<LoginStaffViewModel>();
         }
         public LoginViewModel loginViewModel
         {
@@ -117,6 +119,23 @@ namespace Emporium.ViewModel
                 return ServiceLocator.Current.GetInstance<PasswordResetViewModel>();
             }
         }
+
+        public LoginStaffViewModel loginStaffViewModel
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<LoginStaffViewModel>();
+            }
+        }
+
+        public ClockInViewModel clockInViewModel
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<ClockInViewModel>();
+            }
+        }
+
         public MainViewModel Main
         {
             get
@@ -140,9 +159,13 @@ namespace Emporium.ViewModel
             switch (dispose)
             {
                 case ViewModelList.Login:
-                    if (SimpleIoc.Default.IsRegistered<LoginViewModel>())
+                    //if (SimpleIoc.Default.IsRegistered<LoginViewModel>())
+                    //{
+                    //    SimpleIoc.Default.Unregister<LoginViewModel>();
+                    //}
+                    if (SimpleIoc.Default.IsRegistered<LoginStaffViewModel>())
                     {
-                        SimpleIoc.Default.Unregister<LoginViewModel>();
+                        SimpleIoc.Default.Unregister<LoginStaffViewModel>();
                     }
                     break;
                 case ViewModelList.Table:
@@ -193,6 +216,12 @@ namespace Emporium.ViewModel
                     //    SimpleIoc.Default.Unregister<PasswordResetNumPadViewModel>();
                     //}
                     break;
+                case ViewModelList.ClockIn:
+                    if (SimpleIoc.Default.IsRegistered<ClockInViewModel>())
+                    {
+                        SimpleIoc.Default.Unregister<ClockInViewModel>();
+                    }
+                    break;
                 default:
                     break;
             }
@@ -207,9 +236,13 @@ namespace Emporium.ViewModel
             switch (register)
             {
                 case ViewModelList.Login:
-                    if (SimpleIoc.Default.IsRegistered<LoginViewModel>() == false)
+                    //if (SimpleIoc.Default.IsRegistered<LoginViewModel>() == false)
+                    //{
+                    //    SimpleIoc.Default.Register<LoginViewModel>();
+                    //}
+                    if (SimpleIoc.Default.IsRegistered<LoginStaffViewModel>() == false)
                     {
-                        SimpleIoc.Default.Register<LoginViewModel>();
+                        SimpleIoc.Default.Register<LoginStaffViewModel>();
                     }
                     break;
                 case ViewModelList.Table:
@@ -258,6 +291,12 @@ namespace Emporium.ViewModel
                     if (SimpleIoc.Default.IsRegistered<PasswordResetViewModel>() == false)
                     {
                         SimpleIoc.Default.Register<PasswordResetViewModel>();
+                    }
+                    break;
+                case ViewModelList.ClockIn:
+                    if (SimpleIoc.Default.IsRegistered<ClockInViewModel>() == false)
+                    {
+                        SimpleIoc.Default.Register<ClockInViewModel>();
                     }
                     break;
                 default:

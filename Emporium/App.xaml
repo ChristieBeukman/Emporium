@@ -9,6 +9,8 @@
              xmlns:conView="clr-namespace:Emporium.View.Configuration"
              xmlns:tblView="clr-namespace:Emporium.View.Table"
              xmlns:tbl="clr-namespace:Emporium.ViewModel.Table"
+             xmlns:login="clr-namespace:Emporium.ViewModel.Login"
+             xmlns:loginView="clr-namespace:Emporium.View.Login"
              d1p1:Ignorable="d" xmlns:d1p1="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:Emporium.ViewModel">
   <Application.Resources>
@@ -47,6 +49,14 @@
             <DataTemplate DataType="{x:Type tbl:TableViewModel}">
                 <tblView:TableView/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type login:LoginStaffViewModel}">
+                <loginView:LoginStaffView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type login:ClockInViewModel}">
+                <loginView:ClockInStaffView/>
+            </DataTemplate>
         </ResourceDictionary>
   </Application.Resources>
 </Application>
+    

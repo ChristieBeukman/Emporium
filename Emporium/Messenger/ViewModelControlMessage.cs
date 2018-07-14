@@ -34,7 +34,8 @@ namespace Emporium.Messenger
         NumPad,
         ConfigKeyboard,
         ConfigNumPad,
-        PasswordReset
+        PasswordReset,
+        ClockIn,
     }
 
     /// <summary>

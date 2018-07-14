@@ -12,12 +12,11 @@ namespace Emporium.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class Timesheet
+    public partial class UserClockinStatu
     {
-        public int TimesheetId { get; set; }
-        public Nullable<System.DateTime> ClockIn { get; set; }
-        public Nullable<System.DateTime> ClockOut { get; set; }
+        public int StatusId { get; set; }
         public int UserId { get; set; }
+        public int Status { get; set; }
     
         public virtual User User { get; set; }
     }

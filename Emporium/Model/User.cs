@@ -19,6 +19,7 @@ namespace Emporium.Model
         {
             this.Tables = new HashSet<Table>();
             this.Timesheets = new HashSet<Timesheet>();
+            this.UserClockinStatus = new HashSet<UserClockinStatu>();
         }
     
         public int UserId { get; set; }
@@ -40,5 +41,7 @@ namespace Emporium.Model
         public virtual ICollection<Table> Tables { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Timesheet> Timesheets { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<UserClockinStatu> UserClockinStatus { get; set; }
     }
 }

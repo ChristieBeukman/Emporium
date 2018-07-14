@@ -33,12 +33,13 @@ namespace Emporium.ViewModel.Keyboard
             Users = new ObservableCollection<User>();
             GetUsers();
             SelectionChangedCommand = new RelayCommand(ExecuteSelectionChanged);
-            ClockedIn = new ObservableCollection<User_Timesheet>();
+            ClockedIn = new ObservableCollection<User_ClockInStatus>();
             GetClockedInPersonel();
 
             GetClockedInCommand = new RelayCommand(GetClockedInPersonel);
             GetClockedOutCommand = new RelayCommand(GetClockedOutPersonel);
-            SelectedClockedIn = new User_Timesheet();
+            SelectedClockedIn = new User_ClockInStatus();
+            ClockinStaffCommand = new RelayCommand(ExecuteClockinStaffVerification);
         }
 
         IDataAccess _ServiceProxy;
@@ -164,22 +165,29 @@ namespace Emporium.ViewModel.Keyboard
         void ExecuteVerifyLogin()
         {
             Credentials = _ServiceProxy.VerifyLogin(SelectedClockedIn.UserId, Message);
-
-            if (Credentials != null)
+            if (ClockInPersonel == false)
             {
-                ViewModelLocator.RegisterViewModel(ViewModelList.Table);
-                Logger.UserId = Credentials.UserId;
-                Message = string.Empty;
-                Output = string.Empty;
-                MessengerInstance.Send<ViewModelControlMessage<ViewModelList>>(new ViewModelControlMessage<ViewModelList>(ViewModelList.Table));
-                ViewModelLocator.Cleanup(ViewModelList.Login);
+
+                if (Credentials != null)
+                {
+                    ViewModelLocator.RegisterViewModel(ViewModelList.Table);
+                    Logger.UserId = Credentials.UserId;
+                    Message = string.Empty;
+                    Output = string.Empty;
+                    MessengerInstance.Send<ViewModelControlMessage<ViewModelList>>(new ViewModelControlMessage<ViewModelList>(ViewModelList.Table));
+                    ViewModelLocator.Cleanup(ViewModelList.Login);
+                }
+                else
+                {
+                    MessageBox.Show("Incorrect Password");
+                    Message = null;
+                    Output = null;
+                    EnableNumPad = false;
+                }
             }
             else
             {
-                MessageBox.Show("Incorrect Password");
-                Message = null;
-                Output = null;
-                EnableNumPad = false;
+                GetClockedOutPersonel();
             }
         }
 
@@ -230,8 +238,9 @@ namespace Emporium.ViewModel.Keyboard
         }
         #endregion
 
-        private ObservableCollection<User_Timesheet> _ClockedIn;
-        public ObservableCollection<User_Timesheet> ClockedIn
+        private ObservableCollection<User_ClockInStatus> _ClockedIn;
+
+        public ObservableCollection<User_ClockInStatus> ClockedIn
         {
             get
             {
@@ -244,12 +253,15 @@ namespace Emporium.ViewModel.Keyboard
                 RaisePropertyChanged("ClockedIn");
             }
         }
-        private User_Timesheet _SelectedClockedIn;
+
+        private User_ClockInStatus _SelectedClockedIn;
         private bool _clockedInToggle = true;
+        private bool _ClockInPersonel = false;
         private string _ClockedInOutText = "Clocked In Personel";
 
         public RelayCommand GetClockedInCommand { get; set; }
         public RelayCommand GetClockedOutCommand { get; set; }
+        public RelayCommand ClockinStaffCommand { get; set; }
 
         public bool ClockedInToggle
         {
@@ -279,7 +291,7 @@ namespace Emporium.ViewModel.Keyboard
             }
         }
 
-        public User_Timesheet SelectedClockedIn
+        public User_ClockInStatus SelectedClockedIn
         {
             get
             {
@@ -293,12 +305,26 @@ namespace Emporium.ViewModel.Keyboard
             }
         }
 
+        public bool ClockInPersonel
+        {
+            get
+            {
+                return _ClockInPersonel;
+            }
+
+            set
+            {
+                _ClockInPersonel = value;
+                RaisePropertyChanged("ClockInPersonel");
+            }
+        }
+
         void GetClockedInPersonel()
         {
             if (ClockedInToggle == true)
             {
                 ClockedIn.Clear();
-                foreach (var item in _ServiceProxy.GetClockedInWaitors(1))
+                foreach (var item in _ServiceProxy.GetUserClockInStatus(1))
                 {
                     ClockedIn.Add(item);
                 }
@@ -308,7 +334,7 @@ namespace Emporium.ViewModel.Keyboard
             else
             {
                 ClockedIn.Clear();
-                foreach (var item in _ServiceProxy.GetClockedInWaitors(0))
+                foreach (var item in _ServiceProxy.GetUserClockInStatus(0))
                 {
                     ClockedIn.Add(item);
                 }
@@ -320,11 +346,23 @@ namespace Emporium.ViewModel.Keyboard
         void GetClockedOutPersonel()
         {
             ClockedIn.Clear();
-            foreach (var item in _ServiceProxy.GetClockedInWaitors(0))
+            foreach (var item in _ServiceProxy.GetUserClockInStatus(0))
             {
                 ClockedIn.Add(item);
             }
         }
+
+        void ExecuteClockinStaffVerification()
+        {
+            ClockedIn.Clear();
+            foreach (var item in _ServiceProxy.GetManagers())
+            {
+                ClockedIn.Add(item);
+            }
+            ClockInPersonel = true;
+        }
+
+       
 
 
     }

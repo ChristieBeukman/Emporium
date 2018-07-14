@@ -8,96 +8,62 @@
              xmlns:local="clr-namespace:Emporium.View.KeyBoardViews"
              mc:Ignorable="d" 
             DataContext="{Binding loginViewModel, Mode=OneWay, Source={StaticResource Locator}}">
-   
-        <DockPanel Height="500" Width="700">
-        <Border Padding="5" DockPanel.Dock="Right" >
-            <StackPanel>
+    <UserControl.Resources>
+        <Style x:Key="ButtonStyle" TargetType="{x:Type Button}">
+            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+            <Setter Property="Background" Value="{StaticResource Button.Static.Background}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="true">
+                            <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsDefaulted" Value="true">
+                                <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Background" TargetName="border" Value="Gray"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.MouseOver.Border}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Pressed.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Pressed.Border}"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Disabled.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border}"/>
+                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
 
-                <Border Padding="2"
-                        Height="50">
-                    <Button Content="{Binding ClockedInOutText}" Command="{Binding GetClockedInCommand}"/>
-                </Border>
-                <ListView Height="456" Width="300" Background="{x:Null}"
-                          ItemsSource="{Binding ClockedIn}"
-                          SelectedItem="{Binding SelectedClockedIn}"
-                           Style="{DynamicResource ListViewStyle1}">
-                    <ListView.View>
-                    
-                    <GridView>
-                            <GridViewColumn Width="50"
-                                            HeaderContainerStyle="{DynamicResource ColumnHeaderStyle}" 
-                                            HeaderTemplate="{StaticResource ColumnHeaderTemplate}" >
-
-                                <GridViewColumn.CellTemplate>
-
-                                    <DataTemplate>
-                                        <Border Width="50" Height="50">
-                                            <Image Source="{Binding Image }" />
-                                        </Border>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-
-
-                            <GridViewColumn Width="260"
-                                            HeaderContainerStyle="{DynamicResource ColumnHeaderStyle}" 
-                                            HeaderTemplate="{StaticResource ColumnHeaderTemplate}" >
-                                
-                                <GridViewColumn.CellTemplate>
-                                    
-                                    <DataTemplate>
-                                        <StackPanel Orientation="Horizontal">
-                                            <Border Padding="3">
-                                                <Label Style="{DynamicResource LabelStyling}" 
-                                                   Foreground="White"
-                                                   FontFamily="arial"
-                                                   FontSize="20"
-                                                   Content="{Binding Name}">
-                                                    <Label.Effect>
-                                                        <DropShadowEffect BlurRadius="0"
-                                                                      ShadowDepth="2"
-                                                                      Color="Black"/>
-                                                    </Label.Effect>
-                                                </Label>
-                                            </Border>
-                                            <Border Padding="2">
-                                                <Label Style="{DynamicResource LabelStyling}" 
-                                                   Foreground="White"
-                                                   FontFamily="arial"
-                                                   FontSize="20"
-                                                   Content="{Binding Surname}">
-                                                    <Label.Effect>
-                                                        <DropShadowEffect BlurRadius="0"
-                                                                      ShadowDepth="2"
-                                                                      Color="Black"/>
-                                                    </Label.Effect>
-                                                </Label>
-                                            </Border>
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-
-                        </GridView>
-                    </ListView.View>
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="SelectionChanged">
-                            <GalaSoft_MvvmLight_Command:EventToCommand Command="{Binding SelectionChangedCommand}"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </ListView>
-                
-                
-            </StackPanel>
-        </Border>
-        <Border Height="100" Width="400" DockPanel.Dock="Top"
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="520" />
+            <ColumnDefinition Width="100"/>
+        </Grid.ColumnDefinitions>
+        <DockPanel Height="500" Grid.Column="0" >
+            <Border Height="100" Width="400" DockPanel.Dock="Top"
                     BorderThickness="2"
                     BorderBrush="{StaticResource Border.BorderGradient}"
                     CornerRadius="5,5,0,0">
-				<TextBox Text="{Binding Output, NotifyOnSourceUpdated=True,UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" Style="{DynamicResource LoginTextBoxStyle}" />
-			</Border>
+                <TextBox Text="{Binding Output, NotifyOnSourceUpdated=True,UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" Style="{DynamicResource LoginTextBoxStyle}" />
+            </Border>
 
-			<Border Width="400"
+            <Border Width="400"
 					Padding="1"
                     Height="400"
                     IsEnabled="{Binding EnableNumPad}"
@@ -205,7 +171,119 @@
                 </Grid>
             </Border>
 
-            
         </DockPanel>
-   
+        <Border Padding="5" Grid.Column="2" Width="520">
+
+            <StackPanel >
+
+                <Border Padding="10" Background="Black"
+                        Height="70" Width="520">
+                    <Button Foreground="White" FontSize="20" FontFamily="Copperplate Gothic Bold" Content="{Binding ClockedInOutText}" Command="{Binding GetClockedInCommand}" Margin="0,0,10,0" Background="#FF080808" BorderBrush="White" Style="{DynamicResource ButtonStyle}"/>
+                </Border>
+                <ListView Height="600" Width="510" Background="{x:Null}"
+                          ItemsSource="{Binding ClockedIn}"
+                          SelectedItem="{Binding SelectedClockedIn}"
+                           Style="{DynamicResource ListViewStyle1}">
+                    <ListView.View>
+
+                        <GridView AllowsColumnReorder="True">
+
+                            <GridViewColumn Width="350"
+                                            Header="Name"
+                                            HeaderContainerStyle="{DynamicResource ColumnHeaderStyle}" 
+                                            HeaderTemplate="{StaticResource ColumnHeaderTemplate}" >
+
+                                <GridViewColumn.CellTemplate>
+
+                                    <DataTemplate>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                            </Grid.ColumnDefinitions>
+                                            <Border Grid.Column="0" Width="75" Height="75" Padding="2">
+                                                <Image Stretch="Uniform" Source="{Binding Image }"  />
+                                            </Border>
+                                            <Border Padding="3" Grid.Column="1">
+                                                <Label Style="{DynamicResource LabelStyling}" 
+                                                   Foreground="White"
+                                                   FontFamily="arial"
+                                                   FontSize="20"
+                                                   Content="{Binding FullName}">
+                                                    <Label.Effect>
+                                                        <DropShadowEffect BlurRadius="0"
+                                                                      ShadowDepth="2"
+                                                                      Color="Black"/>
+                                                    </Label.Effect>
+                                                </Label>
+                                            </Border>
+
+                                        </Grid>
+
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+
+                            <GridViewColumn Width="150"
+                                            Header="Position"
+                                            HeaderContainerStyle="{DynamicResource ColumnHeaderStyle}" 
+                                            HeaderTemplate="{StaticResource ColumnHeaderTemplate}" >
+
+                                <GridViewColumn.CellTemplate>
+
+                                    <DataTemplate>
+                                        <Border Padding="3">
+                                            <Label Style="{DynamicResource LabelStyling}" 
+                                                   Foreground="White"
+                                                   FontFamily="arial"
+                                                   FontSize="20"
+                                                   Content="{Binding LevelName}">
+                                                <Label.Effect>
+                                                    <DropShadowEffect BlurRadius="0"
+                                                                      ShadowDepth="2"
+                                                                      Color="Black"/>
+                                                </Label.Effect>
+                                            </Label>
+                                        </Border>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <GalaSoft_MvvmLight_Command:EventToCommand Command="{Binding SelectionChangedCommand}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </ListView>
+
+
+            </StackPanel>
+        </Border>
+        <Border Grid.Column="3" Width="100">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Border Grid.Row="2"
+                        Padding="1">
+                    <Button Style="{DynamicResource ButtonStyle}"
+                            Content="Clock In"
+                            BorderBrush="White"
+                            Background="Red"
+                            Foreground="White"
+                            HorizontalAlignment="Center"
+                            FontFamily="Copperplate Gothic Bold" FontStretch="Condensed"
+                        />
+                </Border>
+            </Grid>
+        </Border>
+    </Grid>
+
+
+
+
 </UserControl>

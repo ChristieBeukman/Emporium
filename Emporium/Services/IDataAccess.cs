@@ -22,7 +22,9 @@ namespace Emporium.Services
         void ClockInUser(Timesheet t);
         void ClockOutUser(Timesheet t);
         ObservableCollection<Timesheet> GetTimesheets();
-        ObservableCollection<User_Timesheet> GetClockedInWaitors(int i);
+        ObservableCollection<User_ClockInStatus> GetUserClockInStatus(int status);
+        void UpdateClockInStatus(User_ClockInStatus s);        
+        ObservableCollection<User_ClockInStatus> GetManagers();
         ObservableCollection<eUserLevel> GetUserLevels();
 	}
     public class DataAccess : IDataAccess
@@ -99,32 +101,36 @@ namespace Emporium.Services
             return us;
         }
 
-        public ObservableCollection<User_Timesheet> GetClockedInWaitors(int i)
-        {
-            ObservableCollection<User_Timesheet> time = new ObservableCollection<User_Timesheet>();
+        //public ObservableCollection<User_Timesheet> GetClockedInStaff(int i)
+        //{
+        //    ObservableCollection<User_Timesheet> time = new ObservableCollection<User_Timesheet>();
 
-            var Query = (from u in _Context.Users
-                         join t in _Context.Timesheets
-                         on u.UserId equals t.UserId
-                         where t.IsClockedIn == i
-                         select new User_Timesheet
-                         {
-                             UserId = u.UserId,
-                             Name = u.Name,
-                             Surname = u.Surname,
-                             FullName = u.Name + " " + u.Surname,
-                             ClockIn = t.ClockIn,
-                             ClockOut = t.ClockOut,
-                             Image = u.Image
+        //    var Query = (from u in _Context.Users
+        //                 join t in _Context.Timesheets
+        //                 on u.UserId equals t.UserId
+        //                 join l in _Context.eUserLevels
+        //                 on u.UserLevelId equals l.UserLevelId
+        //                 where t.IsClockedIn == i
+        //                 select new User_Timesheet
+        //                 {
+        //                     UserId = u.UserId,
+        //                     Name = u.Name,
+        //                     Surname = u.Surname,
+        //                     FullName = u.Name + " " + u.Surname,
+        //                     ClockIn = t.ClockIn,
+        //                     ClockOut = t.ClockOut,
+        //                     Image = u.Image,
+        //                     LevelName = l.Name
+                             
 
-                         }).ToList();
-            foreach (var item in Query)
-            {
-                time.Add(item);
-            }
+        //                 }).ToList();
+        //    foreach (var item in Query)
+        //    {
+        //        time.Add(item);
+        //    }
 
-            return time;
-        }
+        //    return time;
+        //}
 
         public ObservableCollection<Timesheet> GetTimesheets()
         {
@@ -135,6 +141,11 @@ namespace Emporium.Services
 
             return tom;
         }
+
+        //public ObservableCollection<User_Timesheet> GetManagers()
+        //{
+
+        //}
 
         public User_UserLevel GetUserDetails(int userId)
         {
@@ -259,6 +270,76 @@ namespace Emporium.Services
             return Query;
         }
 
+        public ObservableCollection<User_ClockInStatus> GetUserClockInStatus(int status)
+        {
+            ObservableCollection<User_ClockInStatus> us = new ObservableCollection<User_ClockInStatus>();
+
+            var Query = (from u in _Context.Users
+                         join s in _Context.UserClockinStatus
+                         on u.UserId equals s.UserId
+                         join l in _Context.eUserLevels
+                         on u.UserLevelId equals l.UserLevelId
+                         where s.Status == status
+                         select new User_ClockInStatus
+                         {
+                             UserId = u.UserId,
+                             Name = u.Name,
+                             Surname = u.Surname,
+                             FullName = u.Name + " " + u.Surname,
+                             Status = s.Status,
+                             StatusId = s.StatusId,
+                             LevelName = l.Name,
+                             Image = u.Image,
+                             Password = u.Password
+                         }).ToList();
+
+            foreach (var item in Query)
+            {
+                us.Add(item);
+            }
+
+            return us;
+        }
+
+        public ObservableCollection<User_ClockInStatus> GetManagers()
+        {
+            ObservableCollection<User_ClockInStatus> time = new ObservableCollection<User_ClockInStatus>();
+
+            var Query = (from u in _Context.Users
+                         join t in _Context.UserClockinStatus
+                         on u.UserId equals t.UserId
+                         join l in _Context.eUserLevels
+                         on u.UserLevelId equals l.UserLevelId
+                         where u.UserLevelId < 4
+                         select new User_ClockInStatus
+                         {
+                             UserId = u.UserId,
+                             Name = u.Name,
+                             Surname = u.Surname,
+                             FullName = u.Name + " " + u.Surname,
+                             Image = u.Image,
+                             LevelName = l.Name,
+                             Password = u.Password
+
+
+                         }).ToList();
+            foreach (var item in Query)
+            {
+                time.Add(item);
+            }
+
+            return time;
+        }
+
+        public void UpdateClockInStatus(User_ClockInStatus s)
+        {
+            UserClockinStatu st = new UserClockinStatu();
+            st.Status = s.Status;
+            st.UserId = s.UserId;
+            st.StatusId = s.StatusId;
+            _Context.Entry(st).State = System.Data.Entity.EntityState.Modified;
+            _Context.SaveChanges();
+        }
     }
 
 }
