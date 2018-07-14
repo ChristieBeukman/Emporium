@@ -8,6 +8,9 @@
              xmlns:GalaSoft_MvvmLight_Command="http://www.galasoft.ch/mvvmlight"
              mc:Ignorable="d" 
              DataContext="{Binding loginStaffViewModel, Mode=OneWay, Source={StaticResource Locator}}">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="converter"/>
+    </UserControl.Resources>
     <Border>
         <Grid>
             <Grid.ColumnDefinitions>
@@ -228,8 +231,17 @@
                 <Button Height="100"
                         Width="100"
                         Content="Clock In"
+                        Visibility="{Binding EnableClockInControl, Converter={StaticResource converter}}"
                         Command="{Binding ClockInCommand}"/>
             </Border>
+            <Border Grid.Column="2">
+                <Button Height="100"
+                        Width="100"
+                        Content="Cancel"
+                        Visibility="{Binding EnableClockIn, Converter={StaticResource converter}}"
+                        Command="{Binding CancelClockInCommand}"/>
+            </Border>
+
         </Grid> 
     </Border>
 </UserControl>

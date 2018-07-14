@@ -33,12 +33,12 @@ namespace Emporium.ViewModel.Keyboard
             Users = new ObservableCollection<User>();
             GetUsers();
             SelectionChangedCommand = new RelayCommand(ExecuteSelectionChanged);
-            ClockedIn = new ObservableCollection<User_Timesheet>();
+            ClockedIn = new ObservableCollection<User_ClockInStatus>();
             GetClockedInPersonel();
 
             GetClockedInCommand = new RelayCommand(GetClockedInPersonel);
             GetClockedOutCommand = new RelayCommand(GetClockedOutPersonel);
-            SelectedClockedIn = new User_Timesheet();
+            SelectedClockedIn = new User_ClockInStatus();
             ClockinStaffCommand = new RelayCommand(ExecuteClockinStaffVerification);
         }
 
@@ -238,8 +238,9 @@ namespace Emporium.ViewModel.Keyboard
         }
         #endregion
 
-        private ObservableCollection<User_Timesheet> _ClockedIn;
-        public ObservableCollection<User_Timesheet> ClockedIn
+        private ObservableCollection<User_ClockInStatus> _ClockedIn;
+
+        public ObservableCollection<User_ClockInStatus> ClockedIn
         {
             get
             {
@@ -252,7 +253,8 @@ namespace Emporium.ViewModel.Keyboard
                 RaisePropertyChanged("ClockedIn");
             }
         }
-        private User_Timesheet _SelectedClockedIn;
+
+        private User_ClockInStatus _SelectedClockedIn;
         private bool _clockedInToggle = true;
         private bool _ClockInPersonel = false;
         private string _ClockedInOutText = "Clocked In Personel";
@@ -289,7 +291,7 @@ namespace Emporium.ViewModel.Keyboard
             }
         }
 
-        public User_Timesheet SelectedClockedIn
+        public User_ClockInStatus SelectedClockedIn
         {
             get
             {
@@ -322,7 +324,7 @@ namespace Emporium.ViewModel.Keyboard
             if (ClockedInToggle == true)
             {
                 ClockedIn.Clear();
-                foreach (var item in _ServiceProxy.GetClockedInStaff(1))
+                foreach (var item in _ServiceProxy.GetUserClockInStatus(1))
                 {
                     ClockedIn.Add(item);
                 }
@@ -332,7 +334,7 @@ namespace Emporium.ViewModel.Keyboard
             else
             {
                 ClockedIn.Clear();
-                foreach (var item in _ServiceProxy.GetClockedInStaff(0))
+                foreach (var item in _ServiceProxy.GetUserClockInStatus(0))
                 {
                     ClockedIn.Add(item);
                 }
@@ -344,7 +346,7 @@ namespace Emporium.ViewModel.Keyboard
         void GetClockedOutPersonel()
         {
             ClockedIn.Clear();
-            foreach (var item in _ServiceProxy.GetClockedInStaff(0))
+            foreach (var item in _ServiceProxy.GetUserClockInStatus(0))
             {
                 ClockedIn.Add(item);
             }

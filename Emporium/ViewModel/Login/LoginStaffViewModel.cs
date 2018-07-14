@@ -34,21 +34,23 @@ namespace Emporium.ViewModel.Login
             NineCommand = new RelayCommand(PassNine);
             ZeroCommand = new RelayCommand(PassZero);
 
-            ClockedInStaff = new ObservableCollection<User_Timesheet>();
-            SelectedClockedInStaffMember = new User_Timesheet();
+            ClockedInStaff = new ObservableCollection<User_ClockInStatus>();
+            SelectedClockedInStaffMember = new User_ClockInStatus();
             GetClockedInStaff();
             EnterCommand = new RelayCommand(ExecuteVerifyLogin);
             SelectionChangedCommand = new RelayCommand(ExecuteSelectionChanged);
             ClockInCommand = new RelayCommand(ExecuteClockIn);
+            CancelClockInCommand = new RelayCommand(ExecuteCancelClockIn);
         }
 
         IDataAccess _ServiceProxy;
         private string _Output = string.Empty;
         private bool _EnableNumPad = false;
-        private ObservableCollection<User_Timesheet> _ClockedInStaff;
-        private User_Timesheet _SelectedClockedInStaffMember;
+        private ObservableCollection<User_ClockInStatus> _ClockedInStaff;
+        private User_ClockInStatus _SelectedClockedInStaffMember;
         private User _Credentials;
         private bool _EnableClockIn;
+        private bool _EnableClockInControl = true;
 
         /// <summary>
         /// The text that will be displayed while logging in
@@ -87,7 +89,7 @@ namespace Emporium.ViewModel.Login
         /// <summary>
         /// list of all the staff that are clocked in that can login
         /// </summary>
-        public ObservableCollection<User_Timesheet> ClockedInStaff
+        public ObservableCollection<User_ClockInStatus> ClockedInStaff
         {
             get
             {
@@ -104,7 +106,7 @@ namespace Emporium.ViewModel.Login
         /// <summary>
         /// The selected staff memeber of the Clocked in staff collection
         /// </summary>
-        public User_Timesheet SelectedClockedInStaffMember
+        public User_ClockInStatus SelectedClockedInStaffMember
         {
             get
             {
@@ -158,7 +160,7 @@ namespace Emporium.ViewModel.Login
         /// <summary>
         /// Enables the Login Numpad
         /// </summary>
-        void ExecuteSelectionChanged()
+        public void ExecuteSelectionChanged()
         {
             EnableNumPad = true;
         }
@@ -169,7 +171,7 @@ namespace Emporium.ViewModel.Login
         void GetClockedInStaff()
         {
             ClockedInStaff.Clear();
-            foreach (var item in _ServiceProxy.GetClockedInStaff(1))
+            foreach (var item in _ServiceProxy.GetUserClockInStatus(1))
             {
                 ClockedInStaff.Add(item);
             }
@@ -231,13 +233,40 @@ namespace Emporium.ViewModel.Login
 
         public RelayCommand ClockInCommand { get; set; }
 
+        public bool EnableClockInControl
+        {
+            get
+            {
+                return _EnableClockInControl;
+            }
+
+            set
+            {
+                _EnableClockInControl = value;
+                RaisePropertyChanged("EnableClockInControl");
+            }
+        }
+
         /// <summary>
         /// Enables the managers to login for clocking
         /// </summary>
         void ExecuteClockIn()
         {
             EnableClockIn = true;
+            EnableClockInControl = false;
             GetManagers();
+        }
+
+        public RelayCommand CancelClockInCommand { get; set; }
+
+        /// <summary>
+        /// Cancel the Clockin process
+        /// </summary>
+        void ExecuteCancelClockIn()
+        {
+            EnableClockIn = false;
+            EnableClockInControl = true;
+            GetClockedInStaff();
         }
 
         #region Numpad

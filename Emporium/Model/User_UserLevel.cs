@@ -46,7 +46,7 @@ namespace Emporium.Model
         public string BankNo { get; set; }
     }
 
-    public class User_Timesheet
+    public class User_ClockInStatus
     {
         public int UserId { get; set; }
         public string Name { get; set; }
@@ -65,7 +65,9 @@ namespace Emporium.Model
         public string LevelName { get; set; }
 
 
-        public int TimesheetId { get; set; }
+        public int StatusId { get; set; }
+        public int Status { get; set; }
+
         public Nullable<System.DateTime> ClockIn { get; set; }
         public Nullable<System.DateTime> ClockOut { get; set; }
     }
