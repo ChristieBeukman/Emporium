@@ -116,9 +116,6 @@
     <Compile Include="Model\Table.cs">
       <DependentUpon>EmpMainModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\test.cs">
-      <DependentUpon>EmpMainModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Model\Timesheet.cs">
       <DependentUpon>EmpMainModel.tt</DependentUpon>
     </Compile>

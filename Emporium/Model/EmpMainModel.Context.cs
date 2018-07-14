@@ -27,7 +27,6 @@ namespace Emporium.Model
     
         public virtual DbSet<eUserLevel> eUserLevels { get; set; }
         public virtual DbSet<Table> Tables { get; set; }
-        public virtual DbSet<test> tests { get; set; }
         public virtual DbSet<Timesheet> Timesheets { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<UserClockinStatu> UserClockinStatus { get; set; }
