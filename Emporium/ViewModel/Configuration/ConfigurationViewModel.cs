@@ -11,6 +11,8 @@ using Emporium.Messenger;
 using Emporium.Model;
 using Emporium.Services;
 using System.Windows;
+using System.Windows.Media.Imaging;
+using Microsoft.Win32;
 
 namespace Emporium.ViewModel.Configuration
 {
@@ -286,14 +288,34 @@ namespace Emporium.ViewModel.Configuration
 
         void ExecuteAddUser()
         {
+            UserClockinStatu status = new UserClockinStatu();
             _ServiceProxy.AddBlankUser();
             SelectedUser =  _ServiceProxy.GetUserDetails("Please Enter Name", "Please Enter Surname");
             Logger.UserId = SelectedUser.UserId;
             Logger.UserPropertyToEdit = UserProperty.Name;
+            status.UserId = SelectedUser.UserId;
+            status.Status = 0;
+            _ServiceProxy.AddClockInStatus(status);
             ViewModelLocator.RegisterViewModel(ViewModelList.ConfigKeyboard);
             MessengerInstance.Send<ViewModelControlMessage<ViewModelList>>(new ViewModelControlMessage<ViewModelList>(ViewModelList.ConfigKeyboard));
             MessengerInstance.Send<KeyboardMessage<UserProperty>>(new KeyboardMessage<UserProperty>(UserProperty.Name));
             ViewModelLocator.Cleanup(ViewModelList.Configuration);
+        }
+
+        private string fullpath;
+        private BitmapImage NewImage;
+
+        void UploadImage()
+        {
+            OpenFileDialog op = new OpenFileDialog();
+            op.Title = "Select Image";
+            op.Filter = "Images |*.jpg;*.jpeg;*.png";
+            if (op.ShowDialog() == true)
+            {
+                string file = op.FileName;
+                System.IO.File.Copy(file, @"\\Resources\" + file);
+                NewImage = new BitmapImage(new Uri(op.FileName));
+            }
         }
 
     }

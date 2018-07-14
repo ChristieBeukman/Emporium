@@ -269,6 +269,11 @@ namespace Emporium.ViewModel.Login
             GetClockedInStaff();
         }
 
+        void ExecuteAddImage()
+        {
+
+        }
+
         #region Numpad
         void PassOne()
         {
