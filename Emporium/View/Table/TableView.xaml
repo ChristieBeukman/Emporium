@@ -4,9 +4,211 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Emporium.View.Table"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid Background="Red">
-        <Label/>
-    </Grid>
+             mc:Ignorable="d" DataContext="{Binding tableViewModel, Mode=OneWay, Source={StaticResource Locator}}" 
+             >
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="converter"/>
+    </UserControl.Resources>
+    <DockPanel Background="{StaticResource View.Background}">
+        <Border DockPanel.Dock="Top"
+                Height="100"
+                BorderBrush="{StaticResource Border.BorderGradient}"
+                BorderThickness="2"
+                CornerRadius="5,5,0,0"
+                Padding="10">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0"
+                        Content="{Binding UserFullName}" 
+                        FontSize="24"
+                        Style="{DynamicResource LabelStyling}" />
+                <Label Grid.Column="1"
+                        FontSize="24"
+                        Content="{Binding AccessName}"
+                        Style="{DynamicResource LabelStyling}" />
+            </Grid>
+        </Border>
+        <Border BorderBrush="{StaticResource Border.BorderGradient}"
+                BorderThickness="2"
+                CornerRadius="0,0,5,5">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="500"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Border Grid.Column="0" Height="500">
+                    <ListView Background="{x:Null}"
+                              ItemsSource="{Binding AllUserTables}">
+                        <ListView.View>
+                            <GridView AllowsColumnReorder="True">
+                                <GridViewColumn Header="Table No" 
+                                                Width="100" 
+                                                HeaderContainerStyle="{DynamicResource ColumnHeaderStyle}"
+                                                HeaderTemplate="{StaticResource ColumnHeaderTemplate}">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <DockPanel>
+                                                <Label Foreground="White" 
+                                                       FontSize="16"
+                                                       MaxWidth="100"
+                                                       FontFamily="arial"
+                                                       HorizontalAlignment="Center"
+                                                       HorizontalContentAlignment="Center"
+                                                       Margin="25,0,0,0"
+                                                       Background="{x:Null}"
+                                                       Content="{Binding TableNo}">
+                                                    <Label.Effect>
+                                                        <DropShadowEffect Color="Black"
+                                                                          BlurRadius="0.5"
+                                                                          ShadowDepth="2"/>
+                                                    </Label.Effect>
+                                                </Label>
+                                            </DockPanel>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Header="Waitor"
+                                                Width="180"
+                                                HeaderContainerStyle="{DynamicResource ColumnHeaderStyle}"
+                                                HeaderTemplate="{StaticResource ColumnHeaderTemplate}">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <DockPanel>
+                                                <Label Foreground="White" 
+                                                       FontSize="16"
+                                                         Margin="45,0,0,0"
+                                                       MaxWidth="150"
+                                                       FontFamily="arial"
+                                                       Background="{x:Null}"
+                                                       Content="{Binding Name}">
+                                                    <Label.Effect>
+                                                        <DropShadowEffect Color="Black"
+                                                                          BlurRadius="0.5"
+                                                                          ShadowDepth="2"/>
+                                                    </Label.Effect>
+
+                                                </Label>
+                                            </DockPanel>
+                                        </DataTemplate>
+
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Header="Pax"
+                                                Width="80"
+                                                HeaderContainerStyle="{DynamicResource ColumnHeaderStyle}"
+                                                HeaderTemplate="{StaticResource ColumnHeaderTemplate}">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <DockPanel>
+                                                <Label Foreground="White" 
+                                                       FontSize="16"
+                                                         Margin="25,0,0,0"
+                                                       MaxWidth="100"
+                                                       FontFamily="arial"
+                                                       Background="{x:Null}"
+                                                       Content="{Binding Pax}">
+                                                    <Label.Effect>
+                                                        <DropShadowEffect Color="Black"
+                                                                          BlurRadius="0.5"
+                                                                          ShadowDepth="2"/>
+                                                    </Label.Effect>
+
+                                                </Label>
+                                            </DockPanel>
+                                        </DataTemplate>
+
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Header="Amount"
+                                                Width="130"
+                                                HeaderContainerStyle="{DynamicResource ColumnHeaderStyle}"
+                                                HeaderTemplate="{StaticResource ColumnHeaderTemplate}">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <DockPanel>
+                                                <TextBlock Foreground="White" 
+                                                       FontSize="16"
+                                                       Margin="25,0,0,0"
+                                                       MaxWidth="100"
+                                                       FontFamily="arial"
+                                                       Background="{x:Null}"
+                                                       Text="{Binding BillAmount, StringFormat=C,ConverterCulture=en-ZA}">
+                                                    <TextBlock.Effect>
+                                                        <DropShadowEffect Color="Black"
+                                                                          BlurRadius="0.5"
+                                                                          ShadowDepth="2"/>
+                                                    </TextBlock.Effect>
+
+                                                </TextBlock>
+                                            </DockPanel>
+                                        </DataTemplate>
+
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                            </GridView>
+
+                        </ListView.View>
+                    </ListView>
+                </Border>
+                <Border Grid.Column="1" >
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="80"/>
+                            <ColumnDefinition Width="80"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition  Height="50"/>
+                            <RowDefinition Height="50"/>
+                        </Grid.RowDefinitions>
+                        <Border Grid.Row="2"
+                                    Grid.Column="2"
+                                    Padding="2">
+                            <Button Width="50"
+                                    Command="{Binding SignOutCommand}"
+                                    Content="Sign Out"
+                                    FontFamily="Bernard MT Condensed"
+                                    FontSize="8"
+                                    Style="{DynamicResource GlassButton}" Background="Red"/>
+                        </Border>
+                        <Border Grid.Row="2"
+                                    Grid.Column="1"
+                                    Padding="2">
+                            <Button Width="50
+                                    " 
+                                    Visibility="{Binding Management, Converter={StaticResource converter}}"
+                                    Content="Configurator"
+                                    Command="{Binding ConfigurationViewCommand}"
+                                    
+                                    FontSize="8"
+                                    Style="{DynamicResource GlassButton}" Background="#FF1F2DB4" FontFamily="Bernard MT Condensed"/>
+                        </Border>
+                        <Border Grid.Row="1"
+                                    Grid.Column="1"
+                                    Padding="2">
+                            <Button 
+                                    FontFamily="Bernard MT Condensed"
+                                    Content="New Table"
+                                      FontSize="8"
+                                Width="50"
+                                    Style="{DynamicResource GlassButton}" Background="Green" />
+                        </Border>
+                        <Border Grid.Row="1"
+                                    Grid.Column="2"
+                                    Padding="2">
+                            <Button  Width="50"
+                                     FontSize="8"
+                                    Content="View Tables"
+                                   FontFamily="Bernard MT Condensed"
+                                    Style="{DynamicResource GlassButton}" Background="Black"  BorderBrush="Black"/>
+                        </Border>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Border>
+    </DockPanel>
 </UserControl>

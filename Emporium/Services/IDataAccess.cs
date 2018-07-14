@@ -26,6 +26,7 @@ namespace Emporium.Services
         void UpdateClockInStatus(User_ClockInStatus s);        
         ObservableCollection<User_ClockInStatus> GetManagers();
         ObservableCollection<eUserLevel> GetUserLevels();
+        string GetLevel(int levelId);
 	}
     public class DataAccess : IDataAccess
     {
@@ -339,6 +340,14 @@ namespace Emporium.Services
             st.StatusId = s.StatusId;
             _Context.Entry(st).State = System.Data.Entity.EntityState.Modified;
             _Context.SaveChanges();
+        }
+
+        public string GetLevel(int levelId)
+        {
+            var Query = (from u in _Context.eUserLevels
+                         where u.UserLevelId == levelId
+                         select u.Name).SingleOrDefault();
+            return Query;
         }
     }
 
