@@ -27,7 +27,9 @@ namespace Emporium.Services
         ObservableCollection<User_ClockInStatus> GetManagers();
         ObservableCollection<eUserLevel> GetUserLevels();
         string GetLevel(int levelId);
-	}
+        ObservableCollection<UserTables> GetUserTables();
+        ObservableCollection<UserTables> GetUserTables(int userid);
+    }
     public class DataAccess : IDataAccess
     {
         EmporiumEntities _Context;
@@ -348,6 +350,60 @@ namespace Emporium.Services
                          where u.UserLevelId == levelId
                          select u.Name).SingleOrDefault();
             return Query;
+        }
+
+        public ObservableCollection<UserTables> GetUserTables()
+        {
+            ObservableCollection<UserTables> us = new ObservableCollection<UserTables>();
+
+            var Query = (from u in _Context.Users
+                         join t in _Context.Tables
+                         on u.UserId equals t.UserId
+                         select new UserTables
+                         {
+                             UserId = u.UserId,
+                             Name = u.Name,
+                             Surname = u.Surname,
+                             BillAmount = t.BillAmount,
+                             Pax = t.Pax,
+                             TableId = t.TableId,
+                             TableNo = t.TableNo,
+                             TimeStarted = t.TimeStarted
+                         }).ToList();
+
+            foreach (var item in Query)
+            {
+                us.Add(item);
+            }
+
+            return us;
+        }
+
+        public ObservableCollection<UserTables> GetUserTables(int userid)
+        {
+            ObservableCollection<UserTables> us = new ObservableCollection<UserTables>();
+
+            var Query = (from u in _Context.Users
+                         join t in _Context.Tables
+                         on u.UserId equals t.UserId
+                         where u.UserId == userid
+                         select new UserTables
+                         {
+                             UserId = u.UserId,
+                             Name = u.Name,
+                             Surname = u.Surname,
+                             BillAmount = t.BillAmount,
+                             Pax = t.Pax,
+                             TableId = t.TableId,
+                             TableNo = t.TableNo,
+                             TimeStarted = t.TimeStarted
+                         }).ToList();
+
+            foreach (var item in Query)
+            {
+                us.Add(item);
+            }
+            return us;
         }
     }
 

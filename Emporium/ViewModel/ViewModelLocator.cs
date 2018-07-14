@@ -43,7 +43,7 @@ namespace Emporium.ViewModel
             SimpleIoc.Default.Register<LoginViewModel>();
             SimpleIoc.Default.Register<NumPadViewModel>();
             SimpleIoc.Default.Register<KeyPadViewModel>();
-            SimpleIoc.Default.Register<TableViewModel>();
+          //  SimpleIoc.Default.Register<TableViewModel>();
             SimpleIoc.Default.Register<ConfigUsersKeyboardViewModel>();
             SimpleIoc.Default.Register<MainViewModel>();
             SimpleIoc.Default.Register<LoginStaffViewModel>();

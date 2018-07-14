@@ -22,13 +22,13 @@ namespace Emporium.ViewModel.Table
             AllUserTables = new ObservableCollection<UserTables>();
             SelectedUserTable = new UserTables();
 
-            GetUserCredentials();
+           GetUserCredentials();
         }
 
         IDataAccess _ServiceProxy;
         private User _UserCredentials;
         private string _UserFullName;
-        private bool _ManagementAccess = false;
+        private bool _ManagementAccess = true;
         private string _AccessName;
         private ObservableCollection<UserTables> _AllUserTables;
         private UserTables _SelectedUserTable;
@@ -110,7 +110,7 @@ namespace Emporium.ViewModel.Table
             set
             {
                 _AllUserTables = value;
-                RaisePropertyChanged("AccessName");
+                RaisePropertyChanged("AllUserTables");
             }
         }
 
@@ -131,6 +131,9 @@ namespace Emporium.ViewModel.Table
             }
         }
 
+        /// <summary>
+        /// Gets the user parameters passed on from the loginvm and loads the correct table paramaeters
+        /// </summary>
         void GetUserCredentials()
         {
             UserCredentials = _ServiceProxy.VerifyLogin(Logger.UserId);
@@ -142,11 +145,39 @@ namespace Emporium.ViewModel.Table
                 RaisePropertyChanged("AccessName");
                 if (UserCredentials.UserLevelId < 4)
                 {
-                    ManagementAccess = true;
+                    ManagementAccess = true; foreach (var item in _ServiceProxy.GetUserTables())
+                    {
+                        AllUserTables.Add(item);
+                    }
                 }
                 else
                 {
                     ManagementAccess = false;
+                    foreach (var item in _ServiceProxy.GetUserTables(UserCredentials.UserId))
+                    {
+                        AllUserTables.Add(item);
+                    }
+
+                }
+            }
+            GetUserTables();
+        }
+
+        void GetUserTables()
+        {
+            AllUserTables.Clear();
+            if (ManagementAccess == true)
+            {
+                foreach (var item in _ServiceProxy.GetUserTables())
+                {
+                    AllUserTables.Add(item);
+                }
+            }
+            else
+            {
+                foreach (var item in _ServiceProxy.GetUserTables(UserCredentials.UserId))
+                {
+                    AllUserTables.Add(item);
                 }
             }
         }

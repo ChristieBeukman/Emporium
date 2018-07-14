@@ -41,7 +41,8 @@
                 </Grid.ColumnDefinitions>
                 <Border Grid.Column="0" Height="500">
                     <ListView Background="{x:Null}"
-                              ItemsSource="{Binding AllUserTables}">
+                              ItemsSource="{Binding AllUserTables}"
+                              SelectedItem="{Binding SelectedUserTable}">
                         <ListView.View>
                             <GridView AllowsColumnReorder="True">
                                 <GridViewColumn Header="Table No" 
