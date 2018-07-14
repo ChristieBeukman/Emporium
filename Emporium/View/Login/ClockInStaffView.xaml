@@ -9,169 +9,203 @@
              mc:Ignorable="d" 
               DataContext="{Binding clockInViewModel, Mode=OneWay, Source={StaticResource Locator}}">
     <Grid >
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="450"/>
-            <ColumnDefinition/>
-          
-        </Grid.ColumnDefinitions>
-        <Border Height="600" Width="410" Grid.Column="0" Padding="5">
-            <DockPanel>
-                <Border Height="100" DockPanel.Dock="Top"
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Label Content="Clock In Staff Members" Style="{DynamicResource LabelStyling}" FontSize="24"/>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="450"/>
+                <ColumnDefinition/>
+
+            </Grid.ColumnDefinitions>
+            <Border Height="600" Width="410" Grid.Column="0" Padding="5">
+                <DockPanel>
+                    <Border Height="100" DockPanel.Dock="Top"
                             BorderThickness="2"
                             Width="400"
                             BorderBrush="{StaticResource Border.BorderGradient}"
                             CornerRadius="5,5,0,0">
-                    <TextBox Text="{Binding Output}"
+                        <TextBox Text="{Binding Output}"
                                  IsReadOnly="True"
                                  Style="{DynamicResource LoginTextBoxStyle}"/>
-                </Border>
-                <Border IsEnabled="{Binding EnableNumPad}"
+                    </Border>
+                    <Border IsEnabled="{Binding EnableNumPad}"
                             BorderBrush="{StaticResource Border.BorderGradient}"
                             BorderThickness="2"
                             CornerRadius="0,0,5,5">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
 
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                            <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
 
 
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                            <RowDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
 
-                            <RowDefinition/>
-                        </Grid.RowDefinitions>
-                        <Border Grid.Column="0"
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Border Grid.Column="0"
                             Grid.Row="0"
                             Padding="5">
-                            <Button Content="7" Command="{Binding SevenCommand}" Style="{DynamicResource LoginButtonStyle}" Background="#FF09051B"  />
-                        </Border>
-                        <Border Grid.Column="1"
+                                <Button Content="7" Command="{Binding SevenCommand}" Style="{DynamicResource LoginButtonStyle}" Background="#FF09051B"  />
+                            </Border>
+                            <Border Grid.Column="1"
                             Grid.Row="0"
                             Padding="5">
-                            <Button Content="8" Command="{Binding EightCommand}" 
+                                <Button Content="8" Command="{Binding EightCommand}" 
                                 Style="{DynamicResource LoginButtonStyle}" Background="#FF09051B"  />
-                        </Border>
-                        <Border Grid.Column="2"
+                            </Border>
+                            <Border Grid.Column="2"
                             Grid.Row="0"
                             Padding="5">
-                            <Button Content="9" Command="{Binding NineCommand}"
+                                <Button Content="9" Command="{Binding NineCommand}"
                                 Style="{DynamicResource LoginButtonStyle}" Background="#FF09051B"  />
-                        </Border>
-                        <Border Grid.Column="3"
+                            </Border>
+                            <Border Grid.Column="3"
                             Grid.Row="0"
                             Padding="5"/>
-                        <Border Grid.Column="0"
+                            <Border Grid.Column="0"
                             Grid.Row="1"
                             Padding="5">
-                            <Button Content="4" Command="{Binding FourCommand}"
+                                <Button Content="4" Command="{Binding FourCommand}"
                                 Style="{DynamicResource LoginButtonStyle}" Background="#FF09051B"  />
-                        </Border>
+                            </Border>
 
-                        <Border Grid.Column="1"
+                            <Border Grid.Column="1"
                             Grid.Row="1"
                             Padding="5">
-                            <Button Command="{Binding FiveCommand}" Content="5" Style="{DynamicResource LoginButtonStyle}" Background="#FF09051B"  />
-                        </Border>
+                                <Button Command="{Binding FiveCommand}" Content="5" Style="{DynamicResource LoginButtonStyle}" Background="#FF09051B"  />
+                            </Border>
 
-                        <Border Grid.Column="2"
+                            <Border Grid.Column="2"
                             Grid.Row="1"
                             Padding="5">
-                            <Button Command="{Binding SixCommand}"
+                                <Button Command="{Binding SixCommand}"
                                 Content="6" 
                                 Style="{DynamicResource LoginButtonStyle}" Background="#FF09051B"  />
-                        </Border>
+                            </Border>
 
-                        <Border Grid.Column="3"
+                            <Border Grid.Column="3"
                             Grid.Row="0"
                             Grid.RowSpan="2"
                             Padding="5">
-                            <Button Content="&#xF040;" Command="{Binding EnterCommand}" FontWeight="ExtraBold" FontFamily="Wingdings 3" Style="{DynamicResource LoginButtonStyle}" Background="Black"  />
-                        </Border>
-                        <Border Grid.Column="3"
+                                <Button Content="&#xF040;" Command="{Binding ClockinStaffCommand}" FontWeight="ExtraBold" FontFamily="Wingdings 3" Style="{DynamicResource LoginButtonStyle}" Background="Black"  />
+                            </Border>
+                            <Border Grid.Column="3"
                             Grid.Row="2"
                             Grid.RowSpan="2"
                             Padding="5">
-                            <Button Content="R" Command="{Binding ClearCommand}" FontWeight="ExtraBold" FontFamily="Wingdings 3" Style="{DynamicResource LoginButtonStyle}" Background="Black"  />
-                        </Border>
+                                <Button Content="R" Command="{Binding ClearCommand}" FontWeight="ExtraBold" FontFamily="Wingdings 3" Style="{DynamicResource LoginButtonStyle}" Background="Black"  />
+                            </Border>
 
-                        <Border Grid.Column="0"
+                            <Border Grid.Column="0"
                             Grid.Row="2"
                             Padding="5">
-                            <Button Content="1" Command="{Binding OneCommand}" Style="{DynamicResource LoginButtonStyle}" Background="#FF09051B"  />
-                        </Border>
+                                <Button Content="1" Command="{Binding OneCommand}" Style="{DynamicResource LoginButtonStyle}" Background="#FF09051B"  />
+                            </Border>
 
-                        <Border Grid.Column="1"
+                            <Border Grid.Column="1"
                             Grid.Row="2"
                             Padding="5">
-                            <Button Content="2" Command="{Binding TwoCommand}" Style="{DynamicResource LoginButtonStyle}" Background="#FF09051B"  />
-                        </Border>
+                                <Button Content="2" Command="{Binding TwoCommand}" Style="{DynamicResource LoginButtonStyle}" Background="#FF09051B"  />
+                            </Border>
 
-                        <Border Grid.Column="2"
+                            <Border Grid.Column="2"
                             Grid.Row="2"
                             Padding="5">
-                            <Button Content="3" Command="{Binding ThreeCommand}" Style="{DynamicResource LoginButtonStyle}" Background="#FF09051B"  />
-                        </Border>
+                                <Button Content="3" Command="{Binding ThreeCommand}" Style="{DynamicResource LoginButtonStyle}" Background="#FF09051B"  />
+                            </Border>
 
-                        <Border Grid.Column="0"
+                            <Border Grid.Column="0"
                             Grid.Row="3"
                             Grid.ColumnSpan="3"
                             Padding="5">
-                            <Button Content="0" Command="{Binding ZeroCommand}" Style="{DynamicResource LoginButtonStyle}" Background="#FF09051B"  />
-                        </Border>
+                                <Button Content="0" Command="{Binding ZeroCommand}" Style="{DynamicResource LoginButtonStyle}" Background="#FF09051B"  />
+                            </Border>
 
 
-                    </Grid>
-                </Border>
-            </DockPanel>
-        </Border>
-        <Border Padding="2"
+                        </Grid>
+                    </Border>
+                </DockPanel>
+            </Border>
+            <Border Padding="2"
                     Grid.Column="1" >
-            <Border Height="600" 
+                <Border Height="600" 
                         Padding="5"
                         Width="600"
                         >
-                <StackPanel >
+                    <StackPanel >
 
-                    <Border Padding="10" Background="Black"
+                        <Border Padding="10" Background="Black"
                         Height="70" Width="520">
-                        <Button Foreground="White" FontSize="20" FontFamily="Copperplate Gothic Bold" Content="{Binding ClockedInOutText}" Command="{Binding GetClockedInCommand}" Margin="0,0,10,0" Background="#FF080808" BorderBrush="White" Style="{DynamicResource ButtonStyle}"/>
-                    </Border>
-                    <ListView  Width="510" Height="500" Background="{x:Null}"
+                            <Button Foreground="White" FontSize="20" FontFamily="Copperplate Gothic Bold" Content="{Binding ClockedInOutText}" Command="{Binding GetClockedInCommand}" Margin="0,0,10,0" Background="#FF080808" BorderBrush="White" Style="{DynamicResource ButtonStyle}"/>
+                        </Border>
+                        <ListView  Width="510" Height="500" Background="{x:Null}"
                           ItemsSource="{Binding ClockedInStaff}"
                           SelectedItem="{Binding SelectedClockedInStaffMember}"
                            Style="{DynamicResource ListViewStyle1}">
-                        <ListView.View>
+                            <ListView.View>
 
-                            <GridView AllowsColumnReorder="True">
+                                <GridView AllowsColumnReorder="True">
 
-                                <GridViewColumn Width="350"
+                                    <GridViewColumn Width="350"
                                             Header="Name"
                                             HeaderContainerStyle="{DynamicResource ColumnHeaderStyle}" 
                                             HeaderTemplate="{StaticResource ColumnHeaderTemplate}" >
 
-                                    <GridViewColumn.CellTemplate>
+                                        <GridViewColumn.CellTemplate>
 
-                                        <DataTemplate>
-                                            <Grid>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition/>
-                                                    <ColumnDefinition/>
-                                                </Grid.ColumnDefinitions>
-                                                <Border Grid.Column="0" Width="75" Height="75" Padding="2">
-                                                    <Image Stretch="Uniform" Source="{Binding Image }"  />
-                                                </Border>
-                                                <Border Padding="3" Grid.Column="1">
-                                                    <Label Style="{DynamicResource LabelStyling}" 
+                                            <DataTemplate>
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition/>
+                                                        <ColumnDefinition/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Border Grid.Column="0" Width="75" Height="75" Padding="2">
+                                                        <Image Stretch="Uniform" Source="{Binding Image }"  />
+                                                    </Border>
+                                                    <Border Padding="3" Grid.Column="1">
+                                                        <Label Style="{DynamicResource LabelStyling}" 
                                                    Foreground="White"
                                                    FontFamily="arial"
                                                    FontSize="20"
                                                    Content="{Binding FullName}">
+                                                            <Label.Effect>
+                                                                <DropShadowEffect BlurRadius="0"
+                                                                      ShadowDepth="2"
+                                                                      Color="Black"/>
+                                                            </Label.Effect>
+                                                        </Label>
+                                                    </Border>
+
+                                                </Grid>
+
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+                                    <GridViewColumn Width="150"
+                                            Header="Position"
+                                            HeaderContainerStyle="{DynamicResource ColumnHeaderStyle}" 
+                                            HeaderTemplate="{StaticResource ColumnHeaderTemplate}" >
+
+                                        <GridViewColumn.CellTemplate>
+
+                                            <DataTemplate>
+                                                <Border Padding="3">
+                                                    <Label Style="{DynamicResource LabelStyling}" 
+                                                   Foreground="White"
+                                                   FontFamily="arial"
+                                                   FontSize="20"
+                                                   Content="{Binding LevelName}">
                                                         <Label.Effect>
                                                             <DropShadowEffect BlurRadius="0"
                                                                       ShadowDepth="2"
@@ -179,50 +213,24 @@
                                                         </Label.Effect>
                                                     </Label>
                                                 </Border>
-
-                                            </Grid>
-
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-
-                                <GridViewColumn Width="150"
-                                            Header="Position"
-                                            HeaderContainerStyle="{DynamicResource ColumnHeaderStyle}" 
-                                            HeaderTemplate="{StaticResource ColumnHeaderTemplate}" >
-
-                                    <GridViewColumn.CellTemplate>
-
-                                        <DataTemplate>
-                                            <Border Padding="3">
-                                                <Label Style="{DynamicResource LabelStyling}" 
-                                                   Foreground="White"
-                                                   FontFamily="arial"
-                                                   FontSize="20"
-                                                   Content="{Binding LevelName}">
-                                                    <Label.Effect>
-                                                        <DropShadowEffect BlurRadius="0"
-                                                                      ShadowDepth="2"
-                                                                      Color="Black"/>
-                                                    </Label.Effect>
-                                                </Label>
-                                            </Border>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                            </GridView>
-                        </ListView.View>
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="SelectionChanged">
-                                <GalaSoft_MvvmLight_Command:EventToCommand Command="{Binding SelectionChangedCommand}"/>
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-                    </ListView>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                </GridView>
+                            </ListView.View>
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="SelectionChanged">
+                                    <GalaSoft_MvvmLight_Command:EventToCommand Command="{Binding SelectionChangedCommand}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </ListView>
 
 
-                </StackPanel>
+                    </StackPanel>
+                </Border>
             </Border>
-        </Border>
 
-    </Grid>
+
+        </Grid>
+            </Grid>
 </UserControl>

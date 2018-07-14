@@ -120,6 +120,9 @@
     <Compile Include="Model\User.cs">
       <DependentUpon>EmpMainModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\UserClockinStatu.cs">
+      <DependentUpon>EmpMainModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\User_UserLevel.cs" />
     <Compile Include="Services\IDataAccess.cs" />
     <Compile Include="ViewModel\Configuration\ConfigurationViewModel.cs" />
