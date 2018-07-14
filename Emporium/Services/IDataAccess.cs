@@ -30,8 +30,8 @@ namespace Emporium.Services
         string GetLevel(int levelId);
         ObservableCollection<UserTables> GetUserTables();
         ObservableCollection<UserTables> GetUserTables(int userid);
-        void Add(test t);
-        test sele();
+        //void Add(test t);
+        //test sele();
 
     }
     public class DataAccess : IDataAccess
@@ -76,6 +76,7 @@ namespace Emporium.Services
             u.AccountType = e.AccountType;
             u.BankNo = e.BankNo;
             u.BranchNo = e.BranchNo;
+            u.Image = e.Image;
 
             _Context.Entry(u).State = System.Data.Entity.EntityState.Modified;
             _Context.SaveChanges();
@@ -417,19 +418,19 @@ namespace Emporium.Services
             _Context.SaveChanges();
         }
 
-        public void Add(test t)
-        {
-            _Context.tests.Add(t);
-            _Context.SaveChanges();
-        }
+        //public void Add(test t)
+        //{
+        //    _Context.tests.Add(t);
+        //    _Context.SaveChanges();
+        //}
 
-        public test sele()
-        {
-            var Query = (from u in _Context.tests
-                        where u.Id == 1
-                        select u).SingleOrDefault();
-            return Query;
-        }
+        //public test sele()
+        //{
+        //    var Query = (from u in _Context.tests
+        //                where u.Id == 1
+        //                select u).SingleOrDefault();
+        //    return Query;
+        //}
     }
 
 }

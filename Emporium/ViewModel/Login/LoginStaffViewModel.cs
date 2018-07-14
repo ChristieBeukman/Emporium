@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
+using System.Windows.Media.Imaging;
 using Emporium.Messenger;
 using Emporium.ViewModel.Keyboard;
 using Emporium.Services;
@@ -51,7 +53,6 @@ namespace Emporium.ViewModel.Login
         private User _Credentials;
         private bool _EnableClockIn;
         private bool _EnableClockInControl = true;
-
         /// <summary>
         /// The text that will be displayed while logging in
         /// </summary>
@@ -259,6 +260,8 @@ namespace Emporium.ViewModel.Login
 
         public RelayCommand CancelClockInCommand { get; set; }
 
+
+
         /// <summary>
         /// Cancel the Clockin process
         /// </summary>
@@ -267,11 +270,6 @@ namespace Emporium.ViewModel.Login
             EnableClockIn = false;
             EnableClockInControl = true;
             GetClockedInStaff();
-        }
-
-        void ExecuteAddImage()
-        {
-
         }
 
         #region Numpad

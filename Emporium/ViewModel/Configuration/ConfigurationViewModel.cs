@@ -13,6 +13,7 @@ using Emporium.Services;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using Microsoft.Win32;
+using System.IO;
 
 namespace Emporium.ViewModel.Configuration
 {
@@ -40,6 +41,9 @@ namespace Emporium.ViewModel.Configuration
             EditUSerLevelCommand = new RelayCommand(ExecuteEditUserLevel);
             UserLevelSelectionChangedCommand = new RelayCommand(ExecuteUserLevelSelectionChanged);
             AddBlankUserCommand = new RelayCommand(ExecuteAddUser);
+            AddImageCommand = new RelayCommand(ExecuteAddImage);
+            SaveImageCommand = new RelayCommand(ExecuteSaveImage);
+
         }
         IDataAccess _ServiceProxy;
         private ObservableCollection<User_UserLevel> _Users;
@@ -48,6 +52,39 @@ namespace Emporium.ViewModel.Configuration
         private bool _InvisibleControl = false;
         private ObservableCollection<eUserLevel> _Userlevels;
         private eUserLevel _SelectedUserLevel;
+        private string _Fullpath;
+        private BitmapImage _UserImage;
+        private bool _AddImageVisibility = true;
+        private bool _SaveImageVisibility = false;
+
+        public BitmapImage UserImage
+        {
+            get
+            {
+                return _UserImage;
+            }
+
+            set
+            {
+                _UserImage = value;
+                RaisePropertyChanged("UserImage");
+            }
+        }
+
+
+        public string Fullpath
+        {
+            get
+            {
+                return _Fullpath;
+            }
+
+            set
+            {
+                _Fullpath = value;
+                RaisePropertyChanged("Fullpath");
+            }
+        }
 
         public ObservableCollection<User_UserLevel> Users
         {
@@ -317,6 +354,94 @@ namespace Emporium.ViewModel.Configuration
                 NewImage = new BitmapImage(new Uri(op.FileName));
             }
         }
+
+        public RelayCommand AddImageCommand { get; set; }
+
+        public bool AddImageVisibility
+        {
+            get
+            {
+                return _AddImageVisibility;
+            }
+
+            set
+            {
+                _AddImageVisibility = value;
+                RaisePropertyChanged("AddImageVisibility");
+            }
+        }
+
+        public bool SaveImageVisibility
+        {
+            get
+            {
+                return _SaveImageVisibility;
+            }
+
+            set
+            {
+                _SaveImageVisibility = value;
+                RaisePropertyChanged("SaveImageVisibility");
+            }
+        }
+
+        public void ExecuteAddImage()
+        {
+            System.Windows.Forms.OpenFileDialog FileDialog = new System.Windows.Forms.OpenFileDialog();
+            FileDialog.Title = "Select Image";
+            FileDialog.InitialDirectory = "";
+            FileDialog.Filter = "Image Files (*.gif,*.jpg,*.jpeg,*.bmp,*.png)|*.gif;*.jpg;*.jpeg;*.bmp;*.png";
+            FileDialog.FilterIndex = 1;
+
+            if (FileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                string filename = FileDialog.FileName;
+                Fullpath = filename;
+                string fileExt = GetFileNameNoExt(filename.Trim());
+                UserImage = new BitmapImage(new Uri(filename.Trim()));
+                AddImageVisibility = false;
+                SaveImageVisibility = true;
+            }
+            else
+            {
+                MessageBox.Show("Select File");
+            }
+        }
+
+        public string GetFileNameNoExt(string FilePathFileName)
+        {
+            return System.IO.Path.GetFileNameWithoutExtension(FilePathFileName);
+        }
+
+        public RelayCommand SaveImageCommand { get; set; }
+        void ExecuteSaveImage()
+        {
+            var result = MessageBox.Show("Save new Image?", "Save?", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+            switch (result)
+            {
+                case MessageBoxResult.None:
+                    break;
+                case MessageBoxResult.OK:
+                    break;
+                case MessageBoxResult.Cancel:
+                    break;
+                case MessageBoxResult.Yes:
+                    FileStream Stream = new FileStream(Fullpath, FileMode.Open, FileAccess.Read);
+                    StreamReader Reader = new StreamReader(Stream);
+                    Byte[] ImgData = new Byte[Stream.Length - 1];
+                    Stream.Read(ImgData, 0, (int)Stream.Length - 1);
+                    SelectedUser.Image = ImgData;
+                    _ServiceProxy.UpdateUser(SelectedUser);
+                    MessageBox.Show("Saved");
+                    break;
+                case MessageBoxResult.No:
+                    break;
+                default:
+                    break;
+            }
+        }
+
 
     }
 }

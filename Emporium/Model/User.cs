@@ -34,7 +34,7 @@ namespace Emporium.Model
         public string BranchNo { get; set; }
         public string FingerPrint { get; set; }
         public string BankNo { get; set; }
-        public string Image { get; set; }
+        public byte[] Image { get; set; }
     
         public virtual eUserLevel eUserLevel { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
