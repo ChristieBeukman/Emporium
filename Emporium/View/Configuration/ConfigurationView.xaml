@@ -248,91 +248,38 @@
                                 <Border Padding="10"
                                         Height="300">
                                     <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition/>
-                                            <ColumnDefinition/>
-                                            <ColumnDefinition/>
-                                            <ColumnDefinition/>
-                                        </Grid.ColumnDefinitions>
                                         <Grid.RowDefinitions>
-                                            <RowDefinition/>
-                                            <RowDefinition/>
-                                            <RowDefinition/>
-                                            <RowDefinition/>
-                                            <RowDefinition/>
+                                            <RowDefinition Height="80"/>
                                             <RowDefinition/>
                                         </Grid.RowDefinitions>
-                                        <Label Grid.Row="0"
+                                        <Grid Grid.Row="0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition/>
+                                                <RowDefinition/>
+                                            </Grid.RowDefinitions>
+                                            <Label Grid.Row="0"
                                            Grid.Column="0"
                                            Content="Name"
                                            HorizontalAlignment="Right"
                                            VerticalAlignment="Center"
                                            Style="{DynamicResource LabelStyling}"
                                            FontSize="12"/>
-                                        <Label Grid.Row="0"
-                                           Grid.Column="2"
+
+                                            <Label Grid.Row="1"
+                                           Grid.Column="0"
                                            Content="Surname"
                                            HorizontalAlignment="Right"
                                            VerticalAlignment="Center"
                                            Style="{DynamicResource LabelStyling}"
                                            FontSize="12"/>
-                                        <Label Grid.Row="1"
-                                           Grid.Column="0"
-                                           Content="Position"
-                                           HorizontalAlignment="Right"
-                                           VerticalAlignment="Center"
-                                           Style="{DynamicResource LabelStyling}"
-                                           FontSize="12"/>
-                                        <Label Grid.Row="1"
-                                           Grid.Column="2"
-                                           Content="Employee No"
-                                           HorizontalAlignment="Right"
-                                           VerticalAlignment="Center"
-                                           Style="{DynamicResource LabelStyling}"
-                                           FontSize="12"/>
-                                        <Label Grid.Row="2"
-                                           Grid.Column="0"
-                                           Content="Contact No"
-                                           HorizontalAlignment="Right"
-                                           VerticalAlignment="Center"
-                                           Style="{DynamicResource LabelStyling}"
-                                           FontSize="12"/>
-                                        <Label Grid.Row="2"
-                                           Grid.Column="2"
-                                           Content="ID No"
-                                           HorizontalAlignment="Right"
-                                           VerticalAlignment="Center"
-                                           Style="{DynamicResource LabelStyling}"
-                                           FontSize="12"/>
-                                        <Label Grid.Row="3"
-                                           Grid.Column="0"
-                                           Content="Bank"
-                                           HorizontalAlignment="Right"
-                                           VerticalAlignment="Center"
-                                           Style="{DynamicResource LabelStyling}"
-                                           FontSize="12"/>
-                                        <Label Grid.Row="3"
-                                           Grid.Column="2"
-                                           Content="Account Type"
-                                           HorizontalAlignment="Right"
-                                           VerticalAlignment="Center"
-                                           Style="{DynamicResource LabelStyling}"
-                                           FontSize="12"/>
-                                        <Label Grid.Row="4"
-                                           Grid.Column="0"
-                                           Content="Account No"
-                                           HorizontalAlignment="Right"
-                                           VerticalAlignment="Center"
-                                           Style="{DynamicResource LabelStyling}"
-                                           FontSize="12"/>
-                                        <Label Grid.Row="4"
-                                           Grid.Column="2"
-                                           Content="Branch Code"
-                                           HorizontalAlignment="Right"
-                                           VerticalAlignment="Center"
-                                           Style="{DynamicResource LabelStyling}"
-                                           FontSize="12"/>
-                                        <TextBox Grid.Column="1"
+
+                                            <TextBox Grid.Column="1"
                                              Grid.Row="0"
                                                  IsEnabled="{Binding VisibleControl}"
                                                  Text="{Binding SelectedUser.Name}"
@@ -340,13 +287,118 @@
                                              Width="120"
                                              IsReadOnly="True"
                                              Style="{DynamicResource SunkenTextBoxStyle}">
-                                            <i:Interaction.Triggers>
-                                                <i:EventTrigger EventName="MouseDoubleClick">
-                                                    <GalaSoft_MvvmLight_Command:EventToCommand Command="{Binding DisplayNameKeyboard}"/>
-                                                </i:EventTrigger>
-                                            </i:Interaction.Triggers>
-                                        </TextBox>
-                                        <TextBox Grid.Column="1"
+                                                <i:Interaction.Triggers>
+                                                    <i:EventTrigger EventName="MouseDoubleClick">
+                                                        <GalaSoft_MvvmLight_Command:EventToCommand Command="{Binding DisplayNameKeyboard}"/>
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+                                            </TextBox>
+                                            <TextBox Grid.Column="1"
+                                             Grid.Row="1"
+                                             Height="24"
+                                             Width="120"
+                                                 IsEnabled="{Binding VisibleControl}"
+                                             IsReadOnly="True"
+                                                 Text="{Binding SelectedUser.Surname}"
+                                             Style="{DynamicResource SunkenTextBoxStyle}">
+                                                <i:Interaction.Triggers>
+                                                    <i:EventTrigger EventName="MouseDoubleClick">
+                                                        <GalaSoft_MvvmLight_Command:EventToCommand Command="{Binding DisplaySurnameKeyboard}"/>
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+                                            </TextBox>
+                                            <Border Grid.Column="2"
+                                                   
+                                                    BorderBrush="{StaticResource Border.BorderGradient}"
+                                                    BorderThickness="1"
+                                                    CornerRadius="3"
+                                                    Grid.RowSpan="2"
+                                                    Height="80"
+                                                    Width="80"
+                                                    Padding="2">
+                                                <!--<Image Source="{Binding SelectedUser.Image}"/>-->
+                                                <Image x:Name="img"/>
+
+                                            </Border>
+                                            <Ellipse Fill="Black" Grid.Column="3" Grid.RowSpan="2" Height="35" Width="35" Stroke="{StaticResource Border.BorderGradient}" StrokeThickness="1.5" Margin="7,20,114,26" />
+
+                                            <Button ToolTip="Add Image" Click="Button_Click" Content="Add Image" Height="30" Width="30" Grid.Column="3" Grid.RowSpan="2" Style="{DynamicResource GlassAddButton}" Background="Black" Margin="10,22,115,28"/>
+                                            <Button Content="save" Click="Button_Click_1" Grid.Column="3" Margin="63,20,29,20" Grid.RowSpan="2"/>
+                                            <Button Content="load" Click="Button_Click_2" Grid.Column="3" Margin="63,20,29,20" Grid.RowSpan="2"/>
+                                        </Grid>
+                                        <Grid Grid.Row="1">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="1"/>
+                                                <RowDefinition/>
+                                                <RowDefinition/>
+                                                <RowDefinition/>
+                                                <RowDefinition/>
+                                                <RowDefinition/>
+                                                <RowDefinition/>
+                                            </Grid.RowDefinitions>
+                                            <Label Grid.Row="1"
+                                           Grid.Column="0"
+                                           Content="Position"
+                                           HorizontalAlignment="Right"
+                                           VerticalAlignment="Center"
+                                           Style="{DynamicResource LabelStyling}"
+                                           FontSize="12"/>
+                                            <Label Grid.Row="1"
+                                           Grid.Column="2"
+                                           Content="Employee No"
+                                           HorizontalAlignment="Right"
+                                           VerticalAlignment="Center"
+                                           Style="{DynamicResource LabelStyling}"
+                                           FontSize="12"/>
+                                            <Label Grid.Row="2"
+                                           Grid.Column="0"
+                                           Content="Contact No"
+                                           HorizontalAlignment="Right"
+                                           VerticalAlignment="Center"
+                                           Style="{DynamicResource LabelStyling}"
+                                           FontSize="12"/>
+                                            <Label Grid.Row="2"
+                                           Grid.Column="2"
+                                           Content="ID No"
+                                           HorizontalAlignment="Right"
+                                           VerticalAlignment="Center"
+                                           Style="{DynamicResource LabelStyling}"
+                                           FontSize="12"/>
+                                            <Label Grid.Row="3"
+                                           Grid.Column="0"
+                                           Content="Bank"
+                                           HorizontalAlignment="Right"
+                                           VerticalAlignment="Center"
+                                           Style="{DynamicResource LabelStyling}"
+                                           FontSize="12"/>
+                                            <Label Grid.Row="3"
+                                           Grid.Column="2"
+                                           Content="Account Type"
+                                           HorizontalAlignment="Right"
+                                           VerticalAlignment="Center"
+                                           Style="{DynamicResource LabelStyling}"
+                                           FontSize="12"/>
+                                            <Label Grid.Row="4"
+                                           Grid.Column="0"
+                                           Content="Account No"
+                                           HorizontalAlignment="Right"
+                                           VerticalAlignment="Center"
+                                           Style="{DynamicResource LabelStyling}"
+                                           FontSize="12"/>
+                                            <Label Grid.Row="4"
+                                           Grid.Column="2"
+                                           Content="Branch Code"
+                                           HorizontalAlignment="Right"
+                                           VerticalAlignment="Center"
+                                           Style="{DynamicResource LabelStyling}"
+                                           FontSize="12"/>
+                                            <TextBox Grid.Column="1"
                                              Grid.Row="1"
                                              Height="24"
                                                  Text="{Binding SelectedUser.LevelName}"
@@ -354,13 +406,13 @@
                                                  Visibility="{Binding VisibleControl, Converter={StaticResource converter}}"
                                              IsReadOnly="True"
                                              Style="{DynamicResource SunkenTextBoxStyle}">
-                                            <i:Interaction.Triggers>
-                                                <i:EventTrigger EventName="MouseDoubleClick">
-                                                    <GalaSoft_MvvmLight_Command:EventToCommand Command="{Binding EditUSerLevelCommand}"/>
-                                                </i:EventTrigger>
-                                            </i:Interaction.Triggers>
-                                        </TextBox>
-                                        <ComboBox Grid.Column="1"
+                                                <i:Interaction.Triggers>
+                                                    <i:EventTrigger EventName="MouseDoubleClick">
+                                                        <GalaSoft_MvvmLight_Command:EventToCommand Command="{Binding EditUSerLevelCommand}"/>
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+                                            </TextBox>
+                                            <ComboBox Grid.Column="1"
                                                           Grid.Row="1"
                                                           Foreground="White"
                                                           FontFamily="Arial"
@@ -375,14 +427,14 @@
                                                           Template="{DynamicResource ComboBoxTemplate}"
                                                           Background="White"
                                                           Style="{DynamicResource ComboBoxStyling}" Width="120">
-                                            <i:Interaction.Triggers>
-                                                <i:EventTrigger EventName="SelectionChanged">
-                                                    <GalaSoft_MvvmLight_Command:EventToCommand Command="{Binding UserLevelSelectionChangedCommand}"/>
-                                                </i:EventTrigger>
-                                            </i:Interaction.Triggers>
-                                        </ComboBox>
+                                                <i:Interaction.Triggers>
+                                                    <i:EventTrigger EventName="SelectionChanged">
+                                                        <GalaSoft_MvvmLight_Command:EventToCommand Command="{Binding UserLevelSelectionChangedCommand}"/>
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+                                            </ComboBox>
 
-                                        <TextBox Grid.Column="1"
+                                            <TextBox Grid.Column="1"
                                              Grid.Row="2"
                                              Height="24"
                                              Width="120"
@@ -390,14 +442,14 @@
                                                  IsEnabled="{Binding VisibleControl}"
                                                 Text="{Binding SelectedUser.Number}"
                                              Style="{DynamicResource SunkenTextBoxStyle}">
-                                            <i:Interaction.Triggers>
-                                                <i:EventTrigger EventName="MouseDoubleClick">
-                                                    <GalaSoft_MvvmLight_Command:EventToCommand Command="{Binding DisplayNumberKeyboard}"/>
-                                                </i:EventTrigger>
-                                            </i:Interaction.Triggers>
-                                        </TextBox>
+                                                <i:Interaction.Triggers>
+                                                    <i:EventTrigger EventName="MouseDoubleClick">
+                                                        <GalaSoft_MvvmLight_Command:EventToCommand Command="{Binding DisplayNumberKeyboard}"/>
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+                                            </TextBox>
 
-                                        <TextBox Grid.Column="1"
+                                            <TextBox Grid.Column="1"
                                              Grid.Row="3"
                                              Height="24"
                                              Width="120"
@@ -405,15 +457,15 @@
                                                  Text="{Binding SelectedUser.Bank}"
                                                  IsEnabled="{Binding VisibleControl}"
                                              Style="{DynamicResource SunkenTextBoxStyle}">
-                                            <i:Interaction.Triggers>
-                                                <i:EventTrigger EventName="MouseDoubleClick">
-                                                    <GalaSoft_MvvmLight_Command:EventToCommand Command="{Binding DisplayBankKeyboard}"/>
-                                                </i:EventTrigger>
-                                            </i:Interaction.Triggers>
+                                                <i:Interaction.Triggers>
+                                                    <i:EventTrigger EventName="MouseDoubleClick">
+                                                        <GalaSoft_MvvmLight_Command:EventToCommand Command="{Binding DisplayBankKeyboard}"/>
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
 
-                                        </TextBox>
+                                            </TextBox>
 
-                                        <TextBox Grid.Column="1"
+                                            <TextBox Grid.Column="1"
                                              Grid.Row="4"
                                              Height="24"
                                              Width="120"
@@ -421,30 +473,15 @@
                                                  Text="{Binding SelectedUser.BankNo}"
                                                  IsEnabled="{Binding VisibleControl}"
                                              Style="{DynamicResource SunkenTextBoxStyle}">
-                                            <i:Interaction.Triggers>
-                                                <i:EventTrigger EventName="MouseDoubleClick">
-                                                    <GalaSoft_MvvmLight_Command:EventToCommand Command="{Binding DisplayBankNumberKeyboard}"/>
-                                                </i:EventTrigger>
-                                            </i:Interaction.Triggers>
+                                                <i:Interaction.Triggers>
+                                                    <i:EventTrigger EventName="MouseDoubleClick">
+                                                        <GalaSoft_MvvmLight_Command:EventToCommand Command="{Binding DisplayBankNumberKeyboard}"/>
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
 
-                                        </TextBox>
+                                            </TextBox>
 
-                                        <TextBox Grid.Column="3"
-                                             Grid.Row="0"
-                                             Height="24"
-                                             Width="120"
-                                                 IsEnabled="{Binding VisibleControl}"
-                                             IsReadOnly="True"
-                                                 Text="{Binding SelectedUser.Surname}"
-                                             Style="{DynamicResource SunkenTextBoxStyle}">
-                                            <i:Interaction.Triggers>
-                                                <i:EventTrigger EventName="MouseDoubleClick">
-                                                    <GalaSoft_MvvmLight_Command:EventToCommand Command="{Binding DisplaySurnameKeyboard}"/>
-                                                </i:EventTrigger>
-                                            </i:Interaction.Triggers>
-                                        </TextBox>
-
-                                        <TextBox Grid.Column="3"
+                                            <TextBox Grid.Column="3"
                                              Grid.Row="1"
                                              Height="24"
                                              Width="120"
@@ -452,7 +489,7 @@
                                                  Text="{Binding SelectedUser.UserId}"
                                              Style="{DynamicResource SunkenTextBoxStyle}"/>
 
-                                        <TextBox Grid.Column="3"
+                                            <TextBox Grid.Column="3"
                                              Grid.Row="2"
                                              Height="24"
                                              Width="120"
@@ -460,15 +497,15 @@
                                                  Text="{Binding SelectedUser.IDNum}"
                                                  IsEnabled="{Binding VisibleControl}"
                                              Style="{DynamicResource SunkenTextBoxStyle}">
-                                            <i:Interaction.Triggers>
-                                                <i:EventTrigger EventName="MouseDoubleClick">
-                                                    <GalaSoft_MvvmLight_Command:EventToCommand Command="{Binding DisplayIDNumberKeyboard}"/>
-                                                </i:EventTrigger>
-                                            </i:Interaction.Triggers>
+                                                <i:Interaction.Triggers>
+                                                    <i:EventTrigger EventName="MouseDoubleClick">
+                                                        <GalaSoft_MvvmLight_Command:EventToCommand Command="{Binding DisplayIDNumberKeyboard}"/>
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
 
-                                        </TextBox>
+                                            </TextBox>
 
-                                        <TextBox Grid.Column="3"
+                                            <TextBox Grid.Column="3"
                                              Grid.Row="3"
                                              Height="24"
                                              Width="120"
@@ -476,14 +513,14 @@
                                                  Visibility="{Binding NormalAccountControlVisible, Converter={StaticResource converter}}"
                                                  Text="{Binding SelectedUser.AccountType}"
                                              Style="{DynamicResource SunkenTextBoxStyle}">
-                                            <i:Interaction.Triggers>
-                                                <i:EventTrigger EventName="MouseDoubleClick">
-                                                    <GalaSoft_MvvmLight_Command:EventToCommand Command="{Binding ToggleAccountTypeCOntrol}"/>
-                                                </i:EventTrigger>
-                                            </i:Interaction.Triggers>
-                                        </TextBox>
+                                                <i:Interaction.Triggers>
+                                                    <i:EventTrigger EventName="MouseDoubleClick">
+                                                        <GalaSoft_MvvmLight_Command:EventToCommand Command="{Binding ToggleAccountTypeCOntrol}"/>
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+                                            </TextBox>
 
-                                        <ComboBox Grid.Column="3"
+                                            <ComboBox Grid.Column="3"
                                                           Grid.Row="3"
                                                           Foreground="White"
                                                           FontFamily="Arial"
@@ -498,15 +535,15 @@
                                                           Template="{DynamicResource ComboBoxTemplate}"
                                                           Background="White"
                                                           Style="{DynamicResource ComboBoxStyling}" Width="120">
-                                            <i:Interaction.Triggers>
-                                                <i:EventTrigger EventName="SelectionChanged">
-                                                    <GalaSoft_MvvmLight_Command:EventToCommand Command="{Binding UpdateUserLevelCommand}"/>
-                                                </i:EventTrigger>
-                                            </i:Interaction.Triggers>
-                                        </ComboBox>
+                                                <i:Interaction.Triggers>
+                                                    <i:EventTrigger EventName="SelectionChanged">
+                                                        <GalaSoft_MvvmLight_Command:EventToCommand Command="{Binding UpdateUserLevelCommand}"/>
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+                                            </ComboBox>
 
 
-                                        <TextBox Grid.Column="3"
+                                            <TextBox Grid.Column="3"
                                              Grid.Row="4"
                                              Height="24"
                                              Width="120"
@@ -514,27 +551,27 @@
                                                  Text="{Binding SelectedUser.BranchNo}"
                                                  IsEnabled="{Binding VisibleControl}"
                                              Style="{DynamicResource SunkenTextBoxStyle}">
-                                            <i:Interaction.Triggers>
-                                                <i:EventTrigger EventName="MouseDoubleClick">
-                                                    <GalaSoft_MvvmLight_Command:EventToCommand Command="{Binding DisplayBranchNoKeyboard}"/>
-                                                </i:EventTrigger>
-                                            </i:Interaction.Triggers>
+                                                <i:Interaction.Triggers>
+                                                    <i:EventTrigger EventName="MouseDoubleClick">
+                                                        <GalaSoft_MvvmLight_Command:EventToCommand Command="{Binding DisplayBranchNoKeyboard}"/>
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
 
-                                        </TextBox>
+                                            </TextBox>
 
-                                        <Grid Grid.Row="5" Grid.ColumnSpan="4">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition/>
-                                                <ColumnDefinition/>
-                                                <ColumnDefinition/>
-                                            </Grid.ColumnDefinitions>
-                                            <Button Grid.Column="0"
+                                            <Grid Grid.Row="5" Grid.ColumnSpan="4">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition/>
+                                                    <ColumnDefinition/>
+                                                    <ColumnDefinition/>
+                                                </Grid.ColumnDefinitions>
+                                                <Button Grid.Column="0"
                                                 Height="30"
                                                 Width="100"
                                                 x:Name="btnReset"
                                                 Content="Reset Password" Style="{DynamicResource ControlButtonStyle}" Background="#FF6989CD"
                                             Command="{Binding DisplayPasswordResetNumpad}" />
-                                            <Button Grid.Column="1"
+                                                <Button Grid.Column="1"
                                                 Height="30"
                                                 Width="100"
                                                 Grid.Row="1"
@@ -544,13 +581,14 @@
                                                 Content="Add Staff" Style="{DynamicResource ControlButtonStyle}" Background="#FF3AFF00"
                                             />
 
-                                            <Button Grid.Column="2"
+                                                <Button Grid.Column="2"
                                             Grid.Row="5"
                                             Height="30"
                                             Width="100"
                                             Content="Delete Staff Member" Background="#FFFF0C00" Style="{DynamicResource ControlButtonStyle}"
                                             />
 
+                                            </Grid>
                                         </Grid>
                                     </Grid>
 
