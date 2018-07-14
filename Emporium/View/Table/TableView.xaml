@@ -181,9 +181,9 @@
                                     Padding="2">
                             <Button Width="50
                                     " 
-                                    Visibility="{Binding Management, Converter={StaticResource converter}}"
+                                    Visibility="{Binding ManagementAccess, Converter={StaticResource converter}}"
                                     Content="Configurator"
-                                    Command="{Binding ConfigurationViewCommand}"
+                                    Command="{Binding DisplayConfigurationCommand}"
                                     
                                     FontSize="8"
                                     Style="{DynamicResource GlassButton}" Background="#FF1F2DB4" FontFamily="Bernard MT Condensed"/>

@@ -23,7 +23,8 @@ namespace Emporium.Services
         void ClockOutUser(Timesheet t);
         ObservableCollection<Timesheet> GetTimesheets();
         ObservableCollection<User_ClockInStatus> GetUserClockInStatus(int status);
-        void UpdateClockInStatus(User_ClockInStatus s);        
+        void UpdateClockInStatus(User_ClockInStatus s);
+        void AddClockInStatus(UserClockinStatu s);
         ObservableCollection<User_ClockInStatus> GetManagers();
         ObservableCollection<eUserLevel> GetUserLevels();
         string GetLevel(int levelId);
@@ -404,6 +405,12 @@ namespace Emporium.Services
                 us.Add(item);
             }
             return us;
+        }
+
+        public void AddClockInStatus(UserClockinStatu s)
+        {
+            _Context.UserClockinStatus.Add(s);
+            _Context.SaveChanges();
         }
     }
 

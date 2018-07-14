@@ -23,6 +23,8 @@ namespace Emporium.ViewModel.Table
             SelectedUserTable = new UserTables();
 
            GetUserCredentials();
+            SignOutCommand = new RelayCommand(ExecuteSignOut);
+            DisplayConfigurationCommand = new RelayCommand(ExecuteDisplayCOnfiguration);
         }
 
         IDataAccess _ServiceProxy;
@@ -180,6 +182,24 @@ namespace Emporium.ViewModel.Table
                     AllUserTables.Add(item);
                 }
             }
+        }
+
+        public RelayCommand SignOutCommand { get; set; }
+
+        void ExecuteSignOut()
+        {
+            ViewModelLocator.RegisterViewModel(ViewModelList.Login);
+            MessengerInstance.Send<ViewModelControlMessage<ViewModelList>>(new ViewModelControlMessage<ViewModelList>(ViewModelList.Login));
+            ViewModelLocator.Cleanup(ViewModelList.Table);
+        }
+
+        public RelayCommand DisplayConfigurationCommand { get; set; }
+
+        void ExecuteDisplayCOnfiguration()
+        {
+            ViewModelLocator.RegisterViewModel(ViewModelList.Configuration);
+            MessengerInstance.Send<ViewModelControlMessage<ViewModelList>>(new ViewModelControlMessage<ViewModelList>(ViewModelList.Configuration));
+            ViewModelLocator.Cleanup(ViewModelList.Table);
         }
     }
 }
