@@ -43,7 +43,7 @@ namespace Emporium.ViewModel.Configuration
             AddBlankUserCommand = new RelayCommand(ExecuteAddUser);
             AddImageCommand = new RelayCommand(ExecuteAddImage);
             SaveImageCommand = new RelayCommand(ExecuteSaveImage);
-
+            SignOutCommand = new RelayCommand(ExecuteSignOut);
         }
         IDataAccess _ServiceProxy;
         private ObservableCollection<User_UserLevel> _Users;
@@ -434,14 +434,31 @@ namespace Emporium.ViewModel.Configuration
                     SelectedUser.Image = ImgData;
                     _ServiceProxy.UpdateUser(SelectedUser);
                     MessageBox.Show("Saved");
+                    AddImageVisibility = true;
+                    SaveImageVisibility = false;
+                    GetUsers();
                     break;
                 case MessageBoxResult.No:
+                    AddImageVisibility = true;
+                    SaveImageVisibility = false;
                     break;
                 default:
                     break;
             }
         }
 
+        public void LoadImage()
+        {
 
+        }
+
+        public RelayCommand SignOutCommand { get; set; }
+
+        void ExecuteSignOut()
+        {
+            ViewModelLocator.RegisterViewModel(ViewModelList.Login);
+            MessengerInstance.Send<ViewModelControlMessage<ViewModelList>>(new ViewModelControlMessage<ViewModelList>(ViewModelList.Login));
+            ViewModelLocator.Cleanup(ViewModelList.Configuration);
+        }
     }
 }

@@ -317,7 +317,10 @@
                                                     Width="80"
                                                     Padding="2">
                                                 <!--<Image Source="{Binding SelectedUser.Image}"/>-->
-                                                <Image Source="{Binding UserImage}" x:Name="img"/>
+                                                <Grid>
+                                                    <Image Source="{Binding UserImage}"  Visibility="{Binding SaveImageVisibility, Converter={StaticResource converter}}"/>
+                                                    <Image Source="{Binding SelectedUser.Image}"  Visibility="{Binding AddImageVisibility, Converter={StaticResource converter}}"/>
+                                                </Grid>
 
                                             </Border>
                                             <Ellipse Fill="Black" Grid.Column="3" Grid.RowSpan="2" Height="35" Width="35" Stroke="{StaticResource Border.BorderGradient}" StrokeThickness="1.5" Margin="7,20,114,26" />
