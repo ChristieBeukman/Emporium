@@ -37,7 +37,7 @@
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="500"/>
-                    <ColumnDefinition/>
+                    <ColumnDefinition Width="150"/>
                 </Grid.ColumnDefinitions>
                 <Border Grid.Column="0" Height="500">
                     <ListView Background="{x:Null}"
@@ -156,57 +156,69 @@
                 </Border>
                 <Border Grid.Column="1" >
                     <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition Width="80"/>
-                            <ColumnDefinition Width="80"/>
-                        </Grid.ColumnDefinitions>
+                        
                         <Grid.RowDefinitions>
-                            <RowDefinition/>
+                            <RowDefinition />
+                            <RowDefinition Height="50"/>
+                            <RowDefinition  Height="50"/>
+                            <RowDefinition  Height="50"/>
+                            <RowDefinition  Height="50"/>
                             <RowDefinition  Height="50"/>
                             <RowDefinition Height="50"/>
                         </Grid.RowDefinitions>
-                        <Border Grid.Row="2"
+                        <Border Grid.Row="5"
                                     Grid.Column="2"
                                     Padding="2">
-                            <Button Width="50"
+                            <Button Width="150"
                                     Command="{Binding SignOutCommand}"
                                     Content="Sign Out"
-                                    FontFamily="Bernard MT Condensed"
-                                    FontSize="8"
-                                    Style="{DynamicResource GlassButton}" Background="Red"/>
+                                    FontFamily="Britannic Bold"
+                                    FontSize="20"
+                                    Style="{DynamicResource ConfigButtonStyle}" Background="Red"/>
                         </Border>
-                        <Border Grid.Row="2"
+                        
+                        <Border Grid.Row="1"
                                     Grid.Column="1"
                                     Padding="2">
-                            <Button Width="50
-                                    " 
+                            <Button Width="150" 
                                     Visibility="{Binding ManagementAccess, Converter={StaticResource converter}}"
                                     Content="Configurator"
                                     Command="{Binding DisplayConfigurationCommand}"
                                     
-                                    FontSize="8"
-                                    Style="{DynamicResource GlassButton}" Background="#FF1F2DB4" FontFamily="Bernard MT Condensed"/>
+                                    FontSize="20"
+                                    Style="{DynamicResource ConfigButtonStyle}" Background="#FFF0F0F0" FontFamily="Britannic Bold"/>
                         </Border>
-                        <Border Grid.Row="1"
+                        <Border Grid.Row="3"
                                     Grid.Column="1"
                                     Padding="2">
                             <Button 
-                                    FontFamily="Bernard MT Condensed"
+                                    FontFamily="Britannic Bold"
                                     Content="New Table"
-                                      FontSize="8"
-                                Width="50"
-                                    Style="{DynamicResource GlassButton}" Background="Green" />
+                                      FontSize="20"
+                                Width="150"
+                                    Style="{DynamicResource ConfigButtonStyle}" Background="Green" />
                         </Border>
-                        <Border Grid.Row="1"
+                        <Border Grid.Row="4"
+                                    Grid.Column="1"
+                                    Padding="2">
+                            <Button 
+                                    FontFamily="Britannic Bold"
+                                    Content="Clock Out"
+                                      FontSize="20"
+                                Width="150"
+                                    Style="{DynamicResource ConfigButtonStyle}" Background="#FFFFE802" />
+                        </Border>
+
+                                                <Border Grid.Row="2"
                                     Grid.Column="2"
                                     Padding="2">
-                            <Button  Width="50"
-                                     FontSize="8"
+                            <Button  Width="150"
+                                     FontSize="20"
                                     Content="View Tables"
-                                   FontFamily="Bernard MT Condensed"
-                                    Style="{DynamicResource GlassButton}" Background="Black"  BorderBrush="Black"/>
+                                   
+                                    Style="{DynamicResource ConfigButtonStyle}" Background="#FF0A2FAC"  BorderBrush="Black" FontFamily="Britannic Bold" FontWeight="Bold"/>
                         </Border>
+
                     </Grid>
                 </Border>
             </Grid>

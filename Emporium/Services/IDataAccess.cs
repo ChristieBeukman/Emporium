@@ -23,6 +23,7 @@ namespace Emporium.Services
         void ClockOutUser(Timesheet t);
         ObservableCollection<Timesheet> GetTimesheets();
         ObservableCollection<User_ClockInStatus> GetUserClockInStatus(int status);
+        ObservableCollection<User_ClockInStatus> GetUserClockInStatus(int status, int userLevelId, int lowerUserLevelid);
         void UpdateClockInStatus(User_ClockInStatus s);
         void AddClockInStatus(UserClockinStatu s);
         ObservableCollection<User_ClockInStatus> GetManagers();
@@ -32,6 +33,7 @@ namespace Emporium.Services
         ObservableCollection<UserTables> GetUserTables(int userid);
         //void Add(test t);
         //test sele();
+
 
     }
     public class DataAccess : IDataAccess
@@ -91,7 +93,7 @@ namespace Emporium.Services
         public void ClockOutUser(Timesheet t)
         {
             _Context.Entry(t).State = System.Data.Entity.EntityState.Modified;
-            _Context.SaveChanges();
+                _Context.SaveChanges();
         }
 
         public ObservableCollection<User> GetAllUSers()
@@ -310,6 +312,38 @@ namespace Emporium.Services
             return us;
         }
 
+        public ObservableCollection<User_ClockInStatus> GetUserClockInStatus(int status, int upperUserLevelId, int lowerUserLevelid)
+        {
+            ObservableCollection<User_ClockInStatus> us = new ObservableCollection<User_ClockInStatus>();
+
+            var Query = (from u in _Context.Users
+                         join s in _Context.UserClockinStatus
+                         on u.UserId equals s.UserId
+                         join l in _Context.eUserLevels
+                         on u.UserLevelId equals l.UserLevelId
+                         where s.Status == status && u.UserLevelId>3
+                         select new User_ClockInStatus
+                         {
+                             UserId = u.UserId,
+                             Name = u.Name,
+                             Surname = u.Surname,
+                             FullName = u.Name + " " + u.Surname,
+                             Status = s.Status,
+                             StatusId = s.StatusId,
+                             LevelName = l.Name,
+                             Image = u.Image,
+                             Password = u.Password
+                         }).ToList();
+
+            foreach (var item in Query)
+            {
+                us.Add(item);
+            }
+
+            return us;
+        }
+
+
         public ObservableCollection<User_ClockInStatus> GetManagers()
         {
             ObservableCollection<User_ClockInStatus> time = new ObservableCollection<User_ClockInStatus>();
@@ -417,6 +451,7 @@ namespace Emporium.Services
             _Context.UserClockinStatus.Add(s);
             _Context.SaveChanges();
         }
+
 
         //public void Add(test t)
         //{

@@ -16,6 +16,7 @@ using System.Windows;
 
 namespace Emporium.ViewModel.Login
 {
+    public enum LoginFunction { Login, ClockIn, CLockOut}
     public class LoginStaffViewModel : NumPadViewModel
     {
         /// <summary>
@@ -24,7 +25,8 @@ namespace Emporium.ViewModel.Login
         public LoginStaffViewModel()
         {
             _ServiceProxy = new DataAccess();
-
+            func = new LoginFunction();
+            func = LoginFunction.Login;
             OneCommand = new RelayCommand(PassOne);
             TwoCommand = new RelayCommand(PassTwo);
             ThreeCommand = new RelayCommand(PassThree);
@@ -36,15 +38,18 @@ namespace Emporium.ViewModel.Login
             NineCommand = new RelayCommand(PassNine);
             ZeroCommand = new RelayCommand(PassZero);
 
+            UserToClockOut = new Timesheet();
             ClockedInStaff = new ObservableCollection<User_ClockInStatus>();
             SelectedClockedInStaffMember = new User_ClockInStatus();
             GetClockedInStaff();
-            EnterCommand = new RelayCommand(ExecuteVerifyLogin);
+            EnterCommand = new RelayCommand(ExecuteEnter);
             SelectionChangedCommand = new RelayCommand(ExecuteSelectionChanged);
             ClockInCommand = new RelayCommand(ExecuteClockIn);
             CancelClockInCommand = new RelayCommand(ExecuteCancelClockIn);
+            DisplayClockedInStaffCommand = new RelayCommand(DisplayClockedInStaff);
         }
 
+        public LoginFunction func;
         IDataAccess _ServiceProxy;
         private string _Output = string.Empty;
         private bool _EnableNumPad = false;
@@ -53,6 +58,9 @@ namespace Emporium.ViewModel.Login
         private User _Credentials;
         private bool _EnableClockIn;
         private bool _EnableClockInControl = true;
+        private bool _EnableClockOutControl = false;
+        private bool _EnableClockOut = false;
+        private Timesheet _UserToClockOut;
         /// <summary>
         /// The text that will be displayed while logging in
         /// </summary>
@@ -232,6 +240,48 @@ namespace Emporium.ViewModel.Login
             }
         }
 
+        void ExecuteEnter()
+        {
+            Credentials = _ServiceProxy.VerifyLogin(SelectedClockedInStaffMember.UserId, Message);
+
+            if (Credentials != null)
+            {
+                switch (func)
+                {
+                    case LoginFunction.Login:
+                        ViewModelLocator.RegisterViewModel(ViewModelList.Table);
+                        Logger.UserId = Credentials.UserId;
+                        Message = string.Empty;
+                        Output = string.Empty;
+                        MessengerInstance.Send<ViewModelControlMessage<ViewModelList>>(new ViewModelControlMessage<ViewModelList>(ViewModelList.Table));
+                        ViewModelLocator.Cleanup(ViewModelList.Login);
+                        break;
+                    case LoginFunction.ClockIn:
+                        ViewModelLocator.RegisterViewModel(ViewModelList.ClockIn);
+                        Logger.UserId = Credentials.UserId;
+                        Message = string.Empty;
+                        Output = string.Empty;
+                        EnableClockIn = false;
+                        MessengerInstance.Send<ViewModelControlMessage<ViewModelList>>(new ViewModelControlMessage<ViewModelList>(ViewModelList.ClockIn));
+                        ViewModelLocator.Cleanup(ViewModelList.Login);
+                        break;
+                    case LoginFunction.CLockOut:
+                        SelectedClockedInStaffMember.Status = 0;
+                        _ServiceProxy.UpdateClockInStatus(SelectedClockedInStaffMember);
+                        DateTime time = DateTime.Now;
+                        UserToClockOut.ClockOut = time;
+                        _ServiceProxy.ClockOutUser(UserToClockOut);
+                        MessageBox.Show("Clocked out at " + time.ToString());
+                        GetClockedInStaff();
+                        Message = string.Empty;
+                        Output = string.Empty;
+                        break;
+                    default:
+                        break;
+                } 
+            }
+        }
+
         public RelayCommand ClockInCommand { get; set; }
 
         public bool EnableClockInControl
@@ -255,6 +305,7 @@ namespace Emporium.ViewModel.Login
         {
             EnableClockIn = true;
             EnableClockInControl = false;
+            func = LoginFunction.ClockIn;
             GetManagers();
         }
 
@@ -270,8 +321,36 @@ namespace Emporium.ViewModel.Login
             EnableClockIn = false;
             EnableClockInControl = true;
             GetClockedInStaff();
+            func = LoginFunction.Login;
         }
 
+        public RelayCommand DisplayClockedInStaffCommand { get; set; }
+
+        public Timesheet UserToClockOut
+        {
+            get
+            {
+                return _UserToClockOut;
+            }
+
+            set
+            {
+                _UserToClockOut = value;
+                RaisePropertyChanged("UserToClockOut");
+            }
+        }
+
+        void DisplayClockedInStaff()
+        {
+            func = LoginFunction.CLockOut;
+            ClockedInStaff.Clear();
+            foreach (var item in _ServiceProxy.GetUserClockInStatus(1,6,4))
+            {
+                ClockedInStaff.Add(item);
+            }
+        }
+
+      
         #region Numpad
         void PassOne()
         {

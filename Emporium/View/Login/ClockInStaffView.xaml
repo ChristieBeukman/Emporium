@@ -245,7 +245,7 @@
                         Width="100"
                         Content="Sign Out"
                         
-                        Command="{Binding SignOutCommand}"/>
+                        Command="{Binding SignOutCommand}" Style="{DynamicResource ConfigButtonStyle}"/>
             </Border>
 
 

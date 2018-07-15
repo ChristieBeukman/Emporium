@@ -227,20 +227,33 @@
                     </StackPanel>
                 </Border>
             </Border>
-            <Border Grid.Column="2">
-                <Button Height="100"
+            <Grid Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Border Grid.Row="1">
+                    <Button Height="100"
                         Width="100"
                         Content="Clock In"
                         Visibility="{Binding EnableClockInControl, Converter={StaticResource converter}}"
-                        Command="{Binding ClockInCommand}"/>
-            </Border>
-            <Border Grid.Column="2">
-                <Button Height="100"
+                        Command="{Binding ClockInCommand}" Style="{DynamicResource ConfigButtonStyle}"/>
+                </Border>
+                <Border Grid.Row="1">
+                    <Button Height="100"
                         Width="100"
                         Content="Cancel"
                         Visibility="{Binding EnableClockIn, Converter={StaticResource converter}}"
-                        Command="{Binding CancelClockInCommand}"/>
-            </Border>
+                        Command="{Binding CancelClockInCommand}" Style="{DynamicResource ConfigButtonStyle}" Background="Red"/>
+                </Border>
+                <Border Grid.Row="0">
+                    <Button Height="100"
+                        Width="100"
+                        Content="Clock-Out"
+                        
+                        Command="{Binding DisplayClockedInStaffCommand}" Style="{DynamicResource ConfigButtonStyle}" Background="Red"/>
+                </Border>
+            </Grid>
 
         </Grid> 
     </Border>

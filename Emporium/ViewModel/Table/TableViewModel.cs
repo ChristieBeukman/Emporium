@@ -34,6 +34,7 @@ namespace Emporium.ViewModel.Table
         private string _AccessName;
         private ObservableCollection<UserTables> _AllUserTables;
         private UserTables _SelectedUserTable;
+        
 
         /// <summary>
         /// Get the user credentials that was passed on from the loginvm
@@ -201,5 +202,7 @@ namespace Emporium.ViewModel.Table
             MessengerInstance.Send<ViewModelControlMessage<ViewModelList>>(new ViewModelControlMessage<ViewModelList>(ViewModelList.Configuration));
             ViewModelLocator.Cleanup(ViewModelList.Table);
         }
+
+       
     }
 }
